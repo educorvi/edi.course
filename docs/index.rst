@@ -1,0 +1,5 @@
+==========
+edi.course
+==========
+
+User documentation
