@@ -1,0 +1,49 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="example.conference">
+<body>
+
+<metal:main fill-slot="main">
+    <tal:main-macro metal:define-macro="main">
+
+        <div tal:replace="structure provider:plone.abovecontenttitle" />
+
+        <div style="margin-top:10px" class="row">
+           <div class="col-xs-10 col-sm-10">
+             <h1 class="documentFirstHeading" tal:content="context/title" />
+             <p class="documentDescription" tal:content="context/description" />
+           </div>
+           <div style="border: 1px solid #cccccc" class="col-xs-2 col-sm-2">
+             <h4>Zeitbedarf</h4>
+             <p tal:content="context/effort"/>
+           </div>
+        </div>
+        <div class="row">
+           <div class="col-xs-12 col-sm-12">
+             <h2>Lernziele</h2>
+             <span tal:condition="context/goals" tal:replace="structure context/goals/output"/>
+             <p class="callout">Sie können springen indem Sie direkt auf den jeweiligen Inhalt klicken oder über "weiter" 
+                mit der nächsten Seite fortsetzen.</p>
+           </div>
+        </div>
+
+        <div class="row">
+           <div class="col-xs-12 col-sm-12">
+           <h2>Inhalte der Lernheinheit</h2>
+           <p tal:repeat="content view/folderContents">
+             <a href="" tal:attributes="href content/getURL" tal:content="content/Title"/>
+           </p>
+           </div>
+        </div>
+
+        <div tal:replace="structure provider:plone.belowcontentbody" />
+
+    </tal:main-macro>
+</metal:main>
+
+</body>
+</html>

@@ -1,0 +1,4 @@
+<div class="row" tal:define="test view/test">
+  <h1>Hallo Welt</h1>
+</div>
+

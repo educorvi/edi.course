@@ -18,4 +18,60 @@
       directory="static"
       />
 
+  <browser:page
+      name="testview"
+      for="edi.course.content.kurs.IKurs"
+      class=".views.TestView"
+      template="templates/testview.pt"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      name="einschreiben"
+      for="edi.course.content.kurs.IKurs"
+      class=".views.EinschreibenView"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      name="reset"
+      for="edi.course.content.kurs.IKurs"
+      class=".views.ResetView"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      name="view"
+      for="edi.course.content.kurs.IKurs"
+      class=".views.CourseView"
+      template="templates/courseview.pt"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      name="view"
+      for="edi.course.content.lerneinheit.ILerneinheit"
+      class=".views.UnitView"
+      template="templates/unitview.pt"
+      permission="zope2.View"
+      />
+
+  <browser:viewlet
+      name="courseway.aboveviewlet"
+      class=".viewlets.CourseWayViewlet"
+      manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
+      template="templates/courseway.pt"
+      layer="edi.course.interfaces.IEdiCourseLayer"
+      permission="zope2.View"
+      />
+
+  <browser:viewlet
+      name="courseway.belowviewlet"
+      class=".viewlets.CourseWayViewlet"
+      manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
+      template="templates/courseway.pt"
+      layer="edi.course.interfaces.IEdiCourseLayer"
+      permission="zope2.View"
+      />
+
 </configure>

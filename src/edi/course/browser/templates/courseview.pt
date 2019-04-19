@@ -1,0 +1,96 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="example.conference">
+<body>
+
+<metal:main fill-slot="main">
+    <tal:main-macro metal:define-macro="main">
+
+        <div tal:replace="structure provider:plone.abovecontenttitle" />
+
+
+        <div tal:define="button view/getStartButton" class="row" style="background-color:#e6e4e4;">
+          <div class="col-xs-12 col-sm-4">
+            <img style="max-width:100%" tal:attributes="src string:${context/absolute_url}/@@images/titleimage/preview">
+          </div>
+          <div class="col-xs-12 col-sm-4">
+            <h1 style="margin-top:5px" class="documentFirstHeading" tal:content="context/title" />
+            <p class="documentDescription" tal:content="context/description" />    
+            <img tal:condition="context/logoimage" style="max-width:100%" tal:attributes="src string:${context/absolute_url}/@@images/logoimage/mini">
+          </div>
+          <div class="col-xs-12 col-sm-4">
+            <h4>Start: <span tal:content="python: view.getStartEnde()[0]"/></h4>
+            <h4>Ende: <span tal:content="python: view.getStartEnde()[1]"/></h4>
+            <a style="margin-top:5px" tal:attributes="href button/buttonurl" class="submit-widget button-field context" 
+               tal:content="button/buttonvalue"/>
+          </div>
+        </div>
+
+        <div style="margin-top: 10px" class="row">
+          <div tal:define="creators view/getCreators" class="col-xs-12 col-sm-8">
+             <h2>Über diesen Kurs</h2>
+             <span tal:condition="context/about" tal:replace="structure context/about/output"/>
+             <h2>Lernziele</h2>
+             <span tal:condition="context/goals" tal:replace="structure context/goals/output"/>
+             <h2>Kursautoren</h2>
+             <div tal:repeat="creator creators" class="row">
+               <div class="col-xs-12 col-sm-4">
+                 <img tal:attributes="src creator/image">
+                 <p><span style="font-size:120%" tal:content="creator/fullname"/><br/>
+                 <a tal:attributes="href string:mailto:${creator/email}" tal:content="creator/email"/></p>
+               </div>
+               <div class="col-xs-12 col-sm-8">
+                 <p tal:content="creator/biography"/>
+               </div>
+             </div>
+          </div>
+          <div style="border: 1px solid #cccccc" class="col-xs-12 col-sm-4">
+            <h2>Kursdaten</h2>
+
+            <div style="margin-bottom:10px" class="row">
+              <div class="col-xs-5 col-sm-5">
+                  <strong>Dauer:</strong>
+              </div>
+              <div class="col-xs-7 col-sm-7">
+                  <span tal:content = "context/length"/>
+              </div>
+            </div>
+
+            <div style="margin-bottom:10px" class="row">
+              <div class="col-xs-5 col-sm-5">
+                  <strong>Zeitaufwand:</strong>
+              </div>
+              <div class="col-xs-7 col-sm-7">
+                  <span tal:content = "context/effort"/>
+              </div>
+            </div>
+
+            <div style="margin-bottom:10px" class="row">
+              <div class="col-xs-5 col-sm-5">
+                  <strong>Institution:</strong>
+              </div>
+              <div class="col-xs-7 col-sm-7">
+                  <a target="_blank" tal:attributes="href context/url" tal:content="context/institution"/>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+           
+    
+
+
+        <div tal:replace="structure provider:plone.abovecontentbody" />
+
+        <div tal:replace="structure provider:plone.belowcontentbody" />
+
+    </tal:main-macro>
+</metal:main>
+
+</body>
+</html>
