@@ -24,8 +24,8 @@ class CourseView(BrowserView):
         #import pdb;pdb.set_trace()
         button = {}
         courseitems = self.context.getCourseItemsInOrder()
-        if len(courseitems) > 1:
-            button['buttonurl'] = self.context.getCourseItemsInOrder()[1].getURL()
+        if courseitems:
+            button['buttonurl'] = self.context.getCourseItemsInOrder()[0].getURL()
         else:
             button['buttonurl'] = self.context.absolute_url()
         button['buttonvalue'] = u"Fortsetzen"
