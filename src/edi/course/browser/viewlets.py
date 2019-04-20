@@ -55,7 +55,8 @@ class CourseWayViewlet(base.ViewletBase):
             uid = self.context.UID()
             retdict = {}
             if self.context.portal_type in coursetests and 'validate' in self.request.getURL():
-                retdict = self.cookiegetter()
+                if self.context.art == 'benotet':
+                    retdict = self.cookiegetter()
             update = updateVisitedData(kurs, userid, uid, retdict)
 
     def render(self):
