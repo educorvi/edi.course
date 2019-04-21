@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
+import tempfile
 from plone import api as ploneapi
 from Products.Five import BrowserView
-from edi.course.persistance import einschreiben, getStudentData, resetUserData
+from edi.course.pdfgen import createpdf
+from edi.course.persistance import einschreiben, getStudentData, resetUserData, getFinalData
 
 class TestView(BrowserView):
 
@@ -84,6 +86,62 @@ class EinschreibenView(BrowserView):
             ploneapi.portal.show_message(message=errmessage, request=self.request, type='error')
         return self.request.response.redirect(self.context.absolute_url())
 
+
+class AbschlussView(BrowserView):
+    """Die Ansicht der Startseite eines Online-Kurses."""
+
+    def getTestData(self):
+        tests = {}
+        ergebnisse = []
+        summe = 0
+        button = False
+        studentdata = getFinalData(self.context)
+        if studentdata:
+            tests = studentdata.get('tests')
+        if tests:
+            for i in tests.values():
+                result = {}
+                result['title'] = i.get('title')
+                testergebnis = i['outputs']['result']
+                result['result'] = u"falsch"
+                result['punkte'] = 0
+                if testergebnis == True:
+                    result['result'] = u"richtig"
+                    result['punkte'] = i.get('punkte')
+                    summe += i.get('punkte')
+                ergebnisse.append(result)
+        if summe >= self.context.punkte:
+            button = True
+        return {'gesamtpunkte':summe, 'ergebnisse':ergebnisse, 'button':button}
+                
+class PrintCertificate(BrowserView):
+    """Druck des Zertifikats."""
+
+    def __call__(self):
+
+        image = u'%s/@@download/image/%s' %(self.context.absolute_url(), self.context.image.filename)
+
+        data = {'imageurl': image}
+
+        studentdata = getFinalData(self.context)
+        data['datum'] = studentdata.get('lastchange').strftime('%d.%m.%Y')
+        data['datum_x'] = self.context.datum_x
+        data['datum_y'] = self.context.datum_y
+        
+        user = ploneapi.user.get_current()
+        data['name'] = user.getProperty('fullname')
+        data['name_x'] = self.context.name_x
+        data['name_y'] = self.context.name_y
+
+        filehandle = tempfile.TemporaryFile()
+
+        pdf = createpdf(filehandle, data)
+        pdf.seek(0)
+
+        RESPONSE = self.request.response
+        RESPONSE.setHeader('content-type', 'application/pdf')
+        RESPONSE.setHeader('content-disposition', 'attachment; filename=zertifikat.pdf')
+        return pdf.read()
 
 class ResetView(BrowserView):
 

@@ -79,7 +79,7 @@ class Kurs(Container):
             @return: List of catalog brains
         """
         root = self
-        query = {'portal_type':['Kurs', 'Lerneinheit', 'Document', 'Aufgabe']}
+        query = {'portal_type':['Kurs', 'Kursabschluss', 'Lerneinheit', 'Document', 'Aufgabe']}
 
         # Navigation tree base portal_catalog query parameters
         applied_query=  {

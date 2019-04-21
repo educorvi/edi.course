@@ -48,6 +48,7 @@ setup(
         'plone.app.dexterity',
         'pymongo',
         'collective.beaker',
+        'reportlab',
     ],
     extras_require={
         'test': [

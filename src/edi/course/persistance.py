@@ -34,6 +34,14 @@ def getCourse(context):
             return i
     return ""
 
+def getFinalData(context):
+    """ Deliver Final Data for Final-Site
+    """
+    kurs = getCourse(context)
+    studentid = ploneapi.user.get_current().getId()
+    studentdata = getStudentData(kurs, studentid)
+    return studentdata
+
 def getResultsForQuiz(context):
     """ Hilfsfunktion fuer edi.quiz
     """
@@ -44,9 +52,10 @@ def getResultsForQuiz(context):
     cdb = mongoclient[kurs.id]
     uc = cdb.user_collection
     studentdata = uc.find_one({"studentid": studentid})
-    tests = studentdata.get('tests')
-    if tests:
-        retdict = tests.get(quizuid, {})
+    if studentdata:
+        tests = studentdata.get('tests')
+        if tests:
+            retdict = tests.get(quizuid, {})
     return retdict
 
 def einschreiben(kurs, studentid):

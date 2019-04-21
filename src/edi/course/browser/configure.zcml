@@ -41,6 +41,13 @@
       />
 
   <browser:page
+      name="printcert"
+      for="edi.course.content.kursabschluss.IKursabschluss"
+      class=".views.PrintCertificate"
+      permission="zope2.View"
+      />
+
+  <browser:page
       name="view"
       for="edi.course.content.kurs.IKurs"
       class=".views.CourseView"
@@ -53,6 +60,14 @@
       for="edi.course.content.lerneinheit.ILerneinheit"
       class=".views.UnitView"
       template="templates/unitview.pt"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      name="view"
+      for="edi.course.content.kursabschluss.IKursabschluss"
+      class=".views.AbschlussView"
+      template="templates/abschlussview.pt"
       permission="zope2.View"
       />
 
