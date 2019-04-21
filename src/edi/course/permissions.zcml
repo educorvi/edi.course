@@ -7,6 +7,12 @@
   <!-- -*- extra stuff goes here -*- -->
 
     <permission
+        id="edi.course.AddKursabschluss"
+        title="edi.course: Add Kursabschluss"
+    />
+
+
+    <permission
         id="edi.course.AddLerneinheit"
         title="edi.course: Add Lerneinheit"
     />
