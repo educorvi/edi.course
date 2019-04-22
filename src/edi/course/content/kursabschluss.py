@@ -4,13 +4,9 @@ from plone.app.textfield import RichText
 from plone.dexterity.content import Item
 from plone.namedfile.field import NamedBlobImage
 from plone.supermodel import model
-# from plone.supermodel.directives import fieldset
-# from z3c.form.browser.radio import RadioFieldWidget
 from zope import schema
 from zope.interface import implementer
-
-
-# from edi.course import _
+from zope.interface import invariant
 
 
 class IKursabschluss(model.Schema):
@@ -29,55 +25,60 @@ class IKursabschluss(model.Schema):
 
     punkte = schema.Int(title=u"Notwendige Punktzahl für das Zertifikat",
                         description=u"Angabe, welche Punktzahl für den Druck eines Zertifikats erreicht\
-                        werden musste.",
-                        required=False)
+                        werden musste. 0 Punkte heisst - das Zertifikat wird ohne Bedingungen am Ende des Kurses\
+                        zum Ausdruck angeboten.",
+                        default=0,
+                        required=True)
+
+    print_name = schema.Bool(title=u"Aktivieren, wenn der Name auf das Zertifikat gedruckt werden soll.",
+                             description=u"Das Feld wird nur berücksichtigt, wenn der Zertifikatsdruck aktiviert wurde.")
 
     name_x = schema.Float(title=u"X-Koordinate für den Druck des Namens in cm.",
-                          description=u"Angabe der X-Koordinate für den Druck des Namens auf das Zertifikat.")
+                          description=u"Angabe der X-Koordinate für den Druck des Namens auf das Zertifikat.\
+                          Bitte vom linken unteren Blattrand aus messen (virtueller 0-Punkt des Koordinatensystems).",
+                          default=7.0)
 
     name_y = schema.Float(title=u"Y-Koordinate für den Druck des Namens in cm.",
-                          description=u"Angabe der Y-Koordinate für den Druck des Namens auf das Zertifikat.")
+                          description=u"Angabe der Y-Koordinate für den Druck des Namens auf das Zertifikat.\
+                          Bitte vom linken unteren Blattrand aus messen (virtueller 0-Punkt des Koordinatensystems).",
+                          default=14.0)
+
+    name_fontsize = schema.Int(title=u"Schriftgröße in pt für den Druck des Namens auf das Zertifikat.",
+                               default=30)
+
+    print_datum = schema.Bool(title=u"Aktivieren, wenn das Datum auf das Zertifikat gedruckt werden soll.",
+                             description=u"Das Feld wird nur berücksichtigt, wenn der Zertifikatsdruck aktiviert wurde.")
 
     datum_x = schema.Float(title=u"X-Koordinate für den Druck des Datums in cm.",
-                          description=u"Angabe der X-Koordinate für den Druck des Datums auf das Zertifikat.")
+                          description=u"Angabe der X-Koordinate für den Druck des Datums auf das Zertifikat.\
+                          Bitte vom linken unteren Blattrand aus messen (virtueller 0-Punkt des Koordinatensystems).",
+                          default=5.0)
 
     datum_y = schema.Float(title=u"Y-Koordinate für den Druck des Datums in cm.",
-                          description=u"Angabe der Y-Koordinate für den Druck des Datums auf das Zertifikat.")
+                          description=u"Angabe der Y-Koordinate für den Druck des Datums auf das Zertifikat.\
+                          Bitte vom linken unteren Blattrand aus messen (virtueller 0-Punkt des Koordinatensystems).",
+                          default=8.0)
 
-    # directives.widget(level=RadioFieldWidget)
-    # level = schema.Choice(
-    #     title=_(u'Sponsoring Level'),
-    #     vocabulary=LevelVocabulary,
-    #     required=True
-    # )
+    datum_fontsize = schema.Int(title=u"Schriftgröße in pt für den Druck des Datums auf das Zertifikat.",
+                                default=14)
 
-    # text = RichText(
-    #     title=_(u'Text'),
-    #     required=False
-    # )
+    @invariant
+    def zertifikat_invariant(data):
+        if data.zertifikat:
+            if not data.image:
+                raise Invalid(u'Für den Druck des Zertifikats wird ein Hintergrundbild benötigt.')
 
-    # url = schema.URI(
-    #     title=_(u'Link'),
-    #     required=False
-    # )
+    @invariant
+    def name_invariant(data):
+        if data.print_name: 
+            if not data.name_x or not data.name_y or not data.name_fontsize:
+                raise Invalid(u'Bitte machen Sie alle notwendigen Angaben für den Druck des Namens.')
 
-    # fieldset('Images', fields=['logo', 'advertisement'])
-    # logo = namedfile.NamedBlobImage(
-    #     title=_(u'Logo'),
-    #     required=False,
-    # )
-
-    # advertisement = namedfile.NamedBlobImage(
-    #     title=_(u'Advertisement (Gold-sponsors and above)'),
-    #     required=False,
-    # )
-
-    # directives.read_permission(notes='cmf.ManagePortal')
-    # directives.write_permission(notes='cmf.ManagePortal')
-    # notes = RichText(
-    #     title=_(u'Secret Notes (only for site-admins)'),
-    #     required=False
-    # )
+    @invariant
+    def name_invariant(data):
+        if data.print_datum: 
+            if not data.datum_x or not data.datum_y or not data.datum_fontsize:
+                raise Invalid(u'Bitte machen Sie alle notwendigen Angaben für den Druck des Datums.')
 
 
 @implementer(IKursabschluss)
