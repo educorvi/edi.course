@@ -1,0 +1,53 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="example.conference">
+<body>
+
+<metal:main fill-slot="main">
+    <tal:main-macro metal:define-macro="main">
+
+    <div class="row">
+
+      <div class="col-xs-12 col-sm-12">
+
+        <div tal:replace="structure provider:plone.abovecontenttitle" />
+
+        <h1 class="documentFirstHeading">Globale Kursstatistik</h1>
+
+        <div tal:replace="structure provider:plone.belowcontenttitle" />
+
+        <table class="listing" tal:define="data view/getCourseData">
+          <thead>
+            <th>Benutzer-ID</th>
+            <th>Name</th>
+            <th>E-Mail</th>
+            <th>Einschreibung (am)</th>
+            <th>Kursabschluss (am)</th>
+          </thead>
+          <tbody>
+            <tr tal:repeat="entry data">
+              <td><a tal:attributes="href python:context.absolute_url()+'/@@userstats/?user='+entry.get('studentid')"
+                     tal:content="entry/studentid"/></td>
+              <td tal:content="entry/fullname"/>
+              <td tal:content="entry/email"/>
+              <td tal:content="entry/in"/>
+              <td tal:content="entry/fin"/>
+            </tr>
+          </tbody>
+        </table>
+
+        <div tal:replace="structure provider:plone.belowcontentbody" />
+      
+      </div>
+
+    </div>
+
+    </tal:main-macro>
+</metal:main>
+
+</body>
+</html>

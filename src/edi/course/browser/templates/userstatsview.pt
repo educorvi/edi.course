@@ -1,0 +1,65 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="example.conference">
+<body>
+
+<metal:main fill-slot="main">
+    <tal:main-macro metal:define-macro="main">
+
+    <div class="row" tal:define="userdata view/getUserData">
+
+      <div class="col-xs-12 col-sm-12">
+
+        <div tal:replace="structure provider:plone.abovecontenttitle" />
+
+        <h2 tal:condition="not: userdata/fullname">Statistik für: <span class="documentFirstHeading" 
+                                 tal:content="userdata/studentid" /></h2>
+        <h2 tal:condition="userdata/fullname">Statistik für: <span class="documentFirstHeading" 
+                                 tal:content="userdata/fullname" /></h2>
+
+        <p>E-Mail: <span tal:content="userdata/email"/></p>
+        <p>Letzte Änderung: <span tal:content="userdata/lastchange"/></p>
+
+        <h3>Besuchte Seiten</h3>
+          <ul>
+            <li tal:repeat="visit userdata/visited">
+              <a tal:attributes="href python:visit[1]" tal:content="python:visit[0]"/>
+            </li>
+          </ul>
+
+        <h3>Ergebnisse der Wissenstests</h3>
+
+          <table class="listing">
+            <thead>
+              <th>Titel</th>
+              <th>Ergebnis</th>
+              <th>Punkte</th>
+            </thead>
+            <tbody>
+              <tr tal:repeat="ergebnis userdata/ergebnisse">
+                <td tal:content="ergebnis/title"/>
+                <td tal:content="ergebnis/result"/>
+                <td tal:content="ergebnis/punkte"/>
+              </tr>
+              <tr>
+                <td colspan="2"><strong>Summe</strong></td>
+                <td><strong tal:content="userdata/gesamtpunkte"/></td>
+              </tr>
+            </tbody>
+          </table>
+
+        <div tal:replace="structure provider:plone.belowcontentbody" />
+
+      </div>
+
+    </div>
+
+    </tal:main-macro>
+</metal:main>
+
+</body>
+</html>

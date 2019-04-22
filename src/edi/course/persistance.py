@@ -123,6 +123,26 @@ def updateVisitedData(kurs, studentid, uid, retdict, finished):
     update = uc.update_one({"_id": objid},{"$set": studentdata}, upsert=False)
     return update
 
+def getGlobalStats(kurs):
+    """sucht alle Dokumente eingetragener Studenten aus der Datenbank
+    """
+    cdb = mongoclient[kurs.id]
+    cc = cdb.course_collection
+    alldocs = []
+    for doc in cc.find():
+        entry = {}
+        studentid = doc.get('studentid')
+        user = ploneapi.user.get(userid = studentid)
+        entry['studentid'] = studentid
+        entry['fullname'] = user.getProperty('fullname')
+        entry['email'] = user.getProperty('email')
+        entry['in'] = doc.get('date').strftime('%d.%m.%Y %H:%M')
+        entry['fin'] = ''
+        if doc.get('finished'):
+            entry['fin'] = doc.get('finished').strftime('%d.%m.%Y %H:%M')
+        alldocs.append(entry)
+    return alldocs    
+
 def resetUserData(kurs, studentid):
     """setzt die Daten eines bestimmten Benutzers zurück."""
 

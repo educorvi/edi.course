@@ -27,6 +27,22 @@
       />
 
   <browser:page
+      name="globalstats"
+      for="edi.course.content.kurs.IKurs"
+      class=".views.GlobalStatsView"
+      template="templates/globalstatsview.pt"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      name="userstats"
+      for="edi.course.content.kurs.IKurs"
+      class=".views.UserStatsView"
+      template="templates/userstatsview.pt"
+      permission="zope2.View"
+      />
+
+  <browser:page
       name="einschreiben"
       for="edi.course.content.kurs.IKurs"
       class=".views.EinschreibenView"

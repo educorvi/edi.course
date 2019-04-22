@@ -5,6 +5,7 @@ from plone import api as ploneapi
 from Products.Five import BrowserView
 from edi.course.pdfgen import createpdf
 from edi.course.persistance import einschreiben, getStudentData, resetUserData, getFinalData
+from edi.course.persistance import getGlobalStats
 
 class TestView(BrowserView):
 
@@ -169,6 +170,44 @@ class PrintCertificate(BrowserView):
         RESPONSE.setHeader('content-type', 'application/pdf')
         RESPONSE.setHeader('content-disposition', 'attachment; filename=zertifikat.pdf')
         return pdf.read()
+
+class GlobalStatsView(BrowserView):
+
+    def getCourseData(self):
+        data = getGlobalStats(self.context)
+        return data
+
+class UserStatsView(BrowserView):
+
+    def getUserData(self):
+        studentid = self.request.get('user')
+        data = getStudentData(self.context, studentid)
+        entry = {}
+        entry['studentid'] = studentid
+        user = ploneapi.user.get(userid = studentid)
+        entry['fullname'] = user.getProperty('fullname')
+        entry['email'] = user.getProperty('email')
+        visitedcontent = [ploneapi.content.get(UID=i) for i in data.get('visited')]
+        entry['visited'] = [(i.title, i.absolute_url()) for i in visitedcontent]
+        entry['lastchange'] = data.get('lastchange').strftime('%d.%m.%Y %H:%M')
+        ergebnisse = []
+        summe = 0
+        tests = data.get('tests')
+        if tests:
+            for i in tests.values():
+                result = {}
+                result['title'] = i.get('title')
+                testergebnis = i['outputs']['result']
+                result['result'] = u"falsch"
+                result['punkte'] = 0
+                if testergebnis == True:
+                    result['result'] = u"richtig"
+                    result['punkte'] = i.get('punkte')
+                    summe += i.get('punkte')
+                ergebnisse.append(result)
+        entry['ergebnisse'] = ergebnisse
+        entry['gesamtpunkte'] = summe
+        return entry
 
 class ResetView(BrowserView):
 
