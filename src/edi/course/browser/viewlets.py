@@ -54,10 +54,13 @@ class CourseWayViewlet(base.ViewletBase):
             kurs = self.getCourse()
             uid = self.context.UID()
             retdict = {}
+            finished = False
             if self.context.portal_type in coursetests and 'validate' in self.request.getURL():
                 if self.context.art == 'benotet':
                     retdict = self.cookiegetter()
-            update = updateVisitedData(kurs, userid, uid, retdict)
+            if self.context.portal_type == 'Kursabschluss':
+                finished = True
+            update = updateVisitedData(kurs, userid, uid, retdict, finished)
 
     def render(self):
         """ Render viewlet only if it is enabled.

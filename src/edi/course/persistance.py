@@ -76,15 +76,32 @@ def einschreiben(kurs, studentid):
 
 def getStudentData(kurs, studentid):
     """liest die Daten des Studenten aus dem aktuellen Kurs"""
-
     cdb = mongoclient[kurs.id]
     uc = cdb.user_collection
     studentdata = uc.find_one({"studentid": studentid})
     return studentdata
 
-def updateVisitedData(kurs, studentid, uid, retdict):
+def getCourseData(kurs, studentid):
+    """liest die Daten des Kurses aus dem aktuellen Kurs"""
+    cdb = mongoclient[kurs.id]
+    cc = cdb.course_collection
+    coursedata = cc.find_one({"studentid": studentid})
+    return coursedata
+
+def updateVisitedData(kurs, studentid, uid, retdict, finished):
     """aktualisiert die Daten zu den besuchten Inhalten"""
 
+    cdb = mongoclient[kurs.id]
+    uc = cdb.user_collection
+    cc = cdb.course_collection
+
+    if finished:
+        coursedata = getCourseData(kurs, studentid)
+        objid = coursedata.get('_id')
+        if not coursedata.has_key('finished'):
+            coursedata['finished'] = datetime.now()
+            courseupdate = cc.update_one({"_id": objid},{"$set": coursedata}, upsert=False)
+        
     studentdata = getStudentData(kurs, studentid)
     visited = studentdata.get('visited')
     tests = studentdata.get('tests')
@@ -103,8 +120,6 @@ def updateVisitedData(kurs, studentid, uid, retdict):
         studentdata['tests'] = tests
     studentdata['lastchange'] = datetime.now()
     print studentdata
-    cdb = mongoclient[kurs.id]
-    uc = cdb.user_collection
     update = uc.update_one({"_id": objid},{"$set": studentdata}, upsert=False)
     return update
 
