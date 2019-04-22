@@ -61,7 +61,7 @@
      <div class="row">
        <div class="col-xs-12 col-sm-12">
 
-          <p><a tal:condition="testdata/button" tal:attributes="href python:context.absolute_url()+'/@@printcert'">
+          <p><a tal:condition="testdata/button" tal:attributes="href testdata/buttonurl">
              <img tal:attributes="src string:${context/absolute_url}/@@images/image/mini"><br/> Zertifikat drucken</a></p>
 
           <div tal:replace="structure provider:plone.belowcontentbody" />

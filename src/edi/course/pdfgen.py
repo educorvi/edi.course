@@ -35,11 +35,13 @@ def createpdf(filehandle, data):
 
     c.drawImage(image, 0*cm, 0*cm, width=20.993*cm, height=29.693*cm)
 
-    c.setFont(schriftart, 36)
-    c.drawString(data.get('name_x')*cm, data.get('name_y')*cm, data.get('name'))
+    if data.get('print_name'):
+        c.setFont(schriftart, data.get('name_fontsize'))
+        c.drawString(data.get('name_x')*cm, data.get('name_y')*cm, data.get('name'))
 
-    c.setFont(schriftart, 12)
-    c.drawString(data.get('datum_x')*cm, data.get('datum_y')*cm, data.get('datum'))
+    if data.get('print_datum'):
+        c.setFont(schriftart, data.get('datum_fontsize'))
+        c.drawString(data.get('datum_x')*cm, data.get('datum_y')*cm, data.get('datum'))
 
     c.showPage()
     c.save()

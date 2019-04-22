@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import tempfile
+import hashlib
 from plone import api as ploneapi
 from Products.Five import BrowserView
 from edi.course.pdfgen import createpdf
@@ -95,6 +96,7 @@ class AbschlussView(BrowserView):
         ergebnisse = []
         summe = 0
         button = False
+        buttonurl = ''
         studentdata = getFinalData(self.context)
         if studentdata:
             tests = studentdata.get('tests')
@@ -110,28 +112,53 @@ class AbschlussView(BrowserView):
                     result['punkte'] = i.get('punkte')
                     summe += i.get('punkte')
                 ergebnisse.append(result)
-        if summe >= self.context.punkte:
+        if summe >= self.context.punkte and self.context.zertifikat:
+            #be sure - you will never cheat the certprint
+            user = ploneapi.user.get_current()
+            fullname = user.getProperty('fullname')
+            if not fullname:
+                fullname = user.getId()
+            hash_object = hashlib.md5(fullname)
+            urlid = hash_object.hexdigest()
+            buttonurl = self.context.absolute_url() + '/@@printcert/?urlid=%s' %urlid
             button = True
-        return {'gesamtpunkte':summe, 'ergebnisse':ergebnisse, 'button':button}
+        return {'gesamtpunkte':summe, 'ergebnisse':ergebnisse, 'button':button, 'buttonurl':buttonurl}
                 
 class PrintCertificate(BrowserView):
     """Druck des Zertifikats."""
 
     def __call__(self):
+        
+        #1st check if someone tries to cheat the certprint
+        user = ploneapi.user.get_current()
+        fullname = user.getProperty('fullname')
+        if not fullname:
+            fullname = user.getId()
+        hash_object = hashlib.md5(fullname)
+        urlid = hash_object.hexdigest()
+
+        gotid = self.request.get('urlid')
+        
+        if urlid != gotid:
+            ploneapi.portal.show_message('Sie sind nicht zum Zertifikatsdruck berechtigt.', self.request, type='error')
+            return self.request.response.redirect(self.context.absolute_url())
 
         image = u'%s/@@download/image/%s' %(self.context.absolute_url(), self.context.image.filename)
-
         data = {'imageurl': image}
 
         studentdata = getFinalData(self.context)
+        data['print_datum'] = self.context.print_datum
         data['datum'] = studentdata.get('lastchange').strftime('%d.%m.%Y')
         data['datum_x'] = self.context.datum_x
         data['datum_y'] = self.context.datum_y
+        data['datum_fontsize'] = self.context.datum_fontsize
         
         user = ploneapi.user.get_current()
+        data['print_name'] = self.context.print_name
         data['name'] = user.getProperty('fullname')
         data['name_x'] = self.context.name_x
         data['name_y'] = self.context.name_y
+        data['name_fontsize'] = self.context.name_fontsize
 
         filehandle = tempfile.TemporaryFile()
 
