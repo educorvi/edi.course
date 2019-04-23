@@ -21,9 +21,9 @@
   <property name="global_allow">False</property>
   <property name="filter_content_types">True</property>
   <property name="allowed_content_types">
-    <element value="Videoseite" />
-            <element value="Document" />
+    <element value="Document" />
     <element value="Aufgabe" />
+    <element value="Audiovideo" />
     <element value="Image" />
   </property>
   <!-- Schema, class and security -->
@@ -47,6 +47,7 @@
     <element value="plone.categorization"/>
     <element value="plone.basic"/>
     <element value="plone.locking" />
+    <element value="nva.webcode.behaviors.webcode.IWebcode"/>
     <!--<element value="plone.app.referenceablebehavior.referenceable.IReferenceable" />-->
     <!--<element value="plone.leadimage"/>-->
     <!--<element value="plone.relateditems"/>-->

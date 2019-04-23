@@ -81,6 +81,14 @@
 
   <browser:page
       name="view"
+      for="edi.course.content.audiovideo.IAudioVideo"
+      class=".views.AudioVideoView"
+      template="templates/audiovideoview.pt"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      name="view"
       for="edi.course.content.kursabschluss.IKursabschluss"
       class=".views.AbschlussView"
       template="templates/abschlussview.pt"

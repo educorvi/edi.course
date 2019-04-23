@@ -103,6 +103,9 @@ def updateVisitedData(kurs, studentid, uid, retdict, finished):
             courseupdate = cc.update_one({"_id": objid},{"$set": coursedata}, upsert=False)
         
     studentdata = getStudentData(kurs, studentid)
+    if not studentdata:
+        #Autoren und Redakteure arbeiten am Kurs
+        return
     visited = studentdata.get('visited')
     tests = studentdata.get('tests')
     objid = studentdata.get('_id')

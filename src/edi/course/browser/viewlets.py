@@ -71,6 +71,8 @@ class CourseWayViewlet(base.ViewletBase):
             return ""
         if self.context.portal_type == "Kurs":
             return ""
+        if self.context.portal_type == "Image":
+            return ""
         parentobjects = self.getAcquisitionChain(self.context)
         for i in parentobjects:
             if i.portal_type == "Kurs":

@@ -7,6 +7,13 @@ from edi.course.pdfgen import createpdf
 from edi.course.persistance import einschreiben, getStudentData, resetUserData, getFinalData
 from edi.course.persistance import getGlobalStats
 
+def sizeof_fmt(num, suffix='Byte'):
+    for unit in ['','k','M','G','T','P','E','Z']:
+        if abs(num) < 1024.0:
+            return "%3.2f %s%s" % (num, unit, suffix)
+        num /= 1024.0
+    return "%.2f %s%s" % (num, 'Y', suffix)
+
 class TestView(BrowserView):
 
     def test(self):
@@ -85,7 +92,8 @@ class UnitView(BrowserView):
     """Viewklasse fuer die Lerneinheit"""
 
     def folderContents(self):
-        return [i for i in self.context.getFolderContents() if i.portal_type in ['Document', 'Aufgabe']]
+        showtypes = ['Document', 'Aufgabe', 'Audiovideo']
+        return [i for i in self.context.getFolderContents() if i.portal_type in showtypes]
 
 
 class EinschreibenView(BrowserView):
@@ -220,6 +228,22 @@ class UserStatsView(BrowserView):
         entry['ergebnisse'] = ergebnisse
         entry['gesamtpunkte'] = summe
         return entry
+
+class AudioVideoView(BrowserView):
+
+    def getMedia(self):
+        datei = {}
+        if self.context.datei:
+            datei = {}
+            datei['url'] = "%s/@@download/datei/%s" %(self.context.absolute_url(), self.context.datei.filename)
+            if self.context.datei.contentType.startswith('audio'):
+                datei['contentType'] = 'audio/mpeg'
+            else:
+                datei['contentType'] = self.context.datei.contentType
+            datei['size'] = sizeof_fmt(self.context.datei.size)
+            datei['filename'] = self.context.datei.filename
+        return datei
+
 
 class ResetView(BrowserView):
 

@@ -7,35 +7,24 @@
   <!-- -*- extra stuff goes here -*- -->
 
     <permission
-        id="edi.course.AddVideoseite"
-        title="edi.course: Add Videoseite"
+        id="edi.course.AddAudiovideo"
+        title="edi.course: Add Audiovideo"
     />
-
-
-    <permission
-        id="edi.course.AddVideo"
-        title="edi.course: Add Video"
-    />
-
 
     <permission
         id="edi.course.AddKursabschluss"
         title="edi.course: Add Kursabschluss"
     />
 
-
     <permission
         id="edi.course.AddLerneinheit"
         title="edi.course: Add Lerneinheit"
     />
 
-
     <permission
         id="edi.course.AddKurs"
         title="edi.course: Add Kurs"
     />
-
-
 
   </configure>
 

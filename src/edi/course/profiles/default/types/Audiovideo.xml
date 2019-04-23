@@ -1,30 +1,30 @@
 <?xml version="1.0"?>
 <object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-    name="Videoseite"
+    name="Audiovideo"
     meta_type="Dexterity FTI"
     i18n:domain="edi.course">
 
   <!-- Basic properties -->
   <property
       i18n:translate=""
-      name="title">Videoseite</property>
+      name="title">Audio Video</property>
   <property
       i18n:translate=""
-      name="description">Seite mit Video fuer den Kurs</property>
+      name="description">Einbindung von Audio- und Video-Dateien in den Kurs</property>
 
   <property name="allow_discussion">False</property>
-  <property name="factory">Videoseite</property>
+  <property name="factory">Audiovideo</property>
   <property name="icon_expr"></property>
   <property name="link_target"></property>
 
   <!-- Hierarchy control -->
   <property name="global_allow">False</property>
   <!-- Schema, class and security -->
-  <property name="add_permission">edi.course.AddVideoseite</property>
-  <property name="klass">edi.course.content.videoseite.Videoseite</property>
+  <property name="add_permission">edi.course.AddAudiovideo</property>
+  <property name="klass">edi.course.content.audiovideo.Audiovideo</property>
   <property name="model_file"></property>
   <property name="model_source"></property>
-  <property name="schema">edi.course.content.videoseite.IVideoseite</property>
+  <property name="schema">edi.course.content.audiovideo.IAudioVideo</property>
 
   <!-- Enabled behaviors -->
   <property name="behaviors" purge="false">
@@ -40,6 +40,7 @@
     <element value="plone.categorization"/>
     <element value="plone.basic"/>
     <element value="plone.locking" />
+    <element value="nva.webcode.behaviors.webcode.IWebcode"/>
     <!--<element value="plone.app.referenceablebehavior.referenceable.IReferenceable" />-->
     <!--<element value="plone.leadimage"/>-->
     <!--<element value="plone.relateditems"/>-->
@@ -50,7 +51,7 @@
   </property>
 
   <!-- View information -->
-  <property name="add_view_expr">string:${folder_url}/++add++Videoseite</property>
+  <property name="add_view_expr">string:${folder_url}/++add++Audiovideo</property>
   <property name="default_view">view</property>
   <property name="default_view_fallback">False</property>
   <property name="immediate_view">view</property>
