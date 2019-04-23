@@ -5,4 +5,5 @@
   <object meta_type="Dexterity FTI" name="Kurs"/>
   <object meta_type="Dexterity FTI" name="Lerneinheit"/>
   <object meta_type="Dexterity FTI" name="Kursabschluss"/>
+  <object meta_type="Dexterity FTI" name="Video"/>
 </object>

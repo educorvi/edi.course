@@ -18,7 +18,7 @@ class ILerneinheit(model.Schema):
 
     goals = RichText(title=u"Lernziel der Einheit",
                      description=u"Kurze Beschreibung welches Lernziel mit dieser Einzeit erreicht werden soll.",
-                     required=True)
+                     required=False)
 
 @implementer(ILerneinheit)
 class Lerneinheit(Container):

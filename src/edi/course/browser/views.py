@@ -68,12 +68,24 @@ class CourseView(BrowserView):
                 creators.append(creator)
         return creators
 
+    def getLerneinheiten(self):
+        """liest die Lerneinheiten aus dem aktuelln Kurs zur
+           Abbildung eines Inhaltsverzeichnisses
+        """
+        einheiten = []
+        for i in self.context.getFolderContents():
+            if i.portal_type == "Lerneinheit":
+                einheit = {'title':i.Title,
+                           'url':i.getURL()}
+                einheiten.append(einheit)
+        return einheiten
+
 
 class UnitView(BrowserView):
     """Viewklasse fuer die Lerneinheit"""
 
     def folderContents(self):
-        return self.context.getFolderContents()
+        return [i for i in self.context.getFolderContents() if i.portal_type in ['Document', 'Aufgabe']]
 
 
 class EinschreibenView(BrowserView):

@@ -24,7 +24,7 @@
         </div>
         <div class="row">
            <div class="col-xs-12 col-sm-12">
-             <h2>Lernziele</h2>
+             <h2 tal:condition="context/goals">Lernziele</h2>
              <span tal:condition="context/goals" tal:replace="structure context/goals/output"/>
              <p class="callout">Sie können springen indem Sie direkt auf den jeweiligen Inhalt klicken oder über "weiter" 
                 mit der nächsten Seite fortsetzen.</p>

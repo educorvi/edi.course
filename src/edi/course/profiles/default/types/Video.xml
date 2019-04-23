@@ -1,37 +1,30 @@
 <?xml version="1.0"?>
 <object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-    name="Lerneinheit"
+    name="Video"
     meta_type="Dexterity FTI"
     i18n:domain="edi.course">
 
   <!-- Basic properties -->
   <property
       i18n:translate=""
-      name="title">Lerneinheit</property>
+      name="title">Video</property>
   <property
       i18n:translate=""
-      name="description">Lerneinheit innerhalb eines Online-Kurses in Plone</property>
+      name="description">Ein Video innerhalb einer Lernheinheit</property>
 
   <property name="allow_discussion">False</property>
-  <property name="factory">Lerneinheit</property>
+  <property name="factory">Video</property>
   <property name="icon_expr"></property>
   <property name="link_target"></property>
 
   <!-- Hierarchy control -->
   <property name="global_allow">False</property>
-  <property name="filter_content_types">True</property>
-  <property name="allowed_content_types">
-    <element value="Video" />
-        <element value="Document" />
-    <element value="Aufgabe" />
-    <element value="Image" />
-  </property>
   <!-- Schema, class and security -->
-  <property name="add_permission">edi.course.AddLerneinheit</property>
-  <property name="klass">edi.course.content.lerneinheit.Lerneinheit</property>
+  <property name="add_permission">edi.course.AddVideo</property>
+  <property name="klass">edi.course.content.video.Video</property>
   <property name="model_file"></property>
   <property name="model_source"></property>
-  <property name="schema">edi.course.content.lerneinheit.ILerneinheit</property>
+  <property name="schema">edi.course.content.video.IVideo</property>
 
   <!-- Enabled behaviors -->
   <property name="behaviors" purge="false">
@@ -53,14 +46,11 @@
     <!--<element value="plone.richtext"/>-->
     <!--<element value="plone.tableofcontents"/>-->
     <!--<element value="plone.versionable" />-->
-    <!--<element value="plone.nextprevioustoggle" />-->
-    <!--<element value="plone.nextpreviousenabled" />-->
-    <!--<element value="plone.navigationroot" />-->
-    <!--<element value="plone.selectablecontrainstypes" />-->
+    <!--<element value="plone.translatable" />-->
   </property>
 
   <!-- View information -->
-  <property name="add_view_expr">string:${folder_url}/++add++Lerneinheit</property>
+  <property name="add_view_expr">string:${folder_url}/++add++Video</property>
   <property name="default_view">view</property>
   <property name="default_view_fallback">False</property>
   <property name="immediate_view">view</property>
