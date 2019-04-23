@@ -7,6 +7,12 @@
   <!-- -*- extra stuff goes here -*- -->
 
     <permission
+        id="edi.course.AddVideoseite"
+        title="edi.course: Add Videoseite"
+    />
+
+
+    <permission
         id="edi.course.AddVideo"
         title="edi.course: Add Video"
     />

@@ -13,13 +13,13 @@ from zope.interface import implementer
 # from edi.course import _
 
 
-class IVideo(model.Schema):
-    """ Marker interface and Dexterity Python Schema for Video
+class IVideoseite(model.Schema):
+    """ Marker interface and Dexterity Python Schema for Videoseite
     """
     # If you want, you can load a xml model created TTW here
     # and customize it in Python:
 
-    # model.load('video.xml')
+    # model.load('videoseite.xml')
 
     # directives.widget(level=RadioFieldWidget)
     # level = schema.Choice(
@@ -57,7 +57,7 @@ class IVideo(model.Schema):
     # )
 
 
-@implementer(IVideo)
-class Video(Item):
+@implementer(IVideoseite)
+class Videoseite(Item):
     """
     """
