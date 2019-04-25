@@ -87,14 +87,37 @@ class CourseView(BrowserView):
                 einheiten.append(einheit)
         return einheiten
 
+    def getZertifikat(self):
+        cert = {}
+        cert['cert'] = self.context.zertifikat
+        cert['max'] = self.context.getMaxPunkte()
+        cert['quorum'] = self.context.quorum
+        return cert 
+
 
 class UnitView(BrowserView):
     """Viewklasse fuer die Lerneinheit"""
 
     def folderContents(self):
-        showtypes = ['Document', 'Aufgabe', 'Audiovideo']
-        return [i for i in self.context.getFolderContents() if i.portal_type in showtypes]
+        glyphclasses = {'Document':'',
+                        'Aufgabe':'glyphicon glyphicon-check',
+                        'Audiovideo':'glyphicon glyphicon-play-circle'}
 
+        fontsizes = {'Document':'font-size:130%;',
+                     'Aufgabe':'font-size:100%;',
+                     'Audiovideo':'font-size:100%;'}
+
+        showtypes = ['Document', 'Aufgabe', 'Audiovideo']
+        retlist = []
+        for i in self.context.getFolderContents():
+            if i.portal_type in showtypes:
+                content = {}
+                content['glyph'] = glyphclasses.get(i.portal_type)
+                content['fontsize'] = fontsizes.get(i.portal_type)
+                content['title'] = i.Title
+                content['url'] = i.getURL()
+                retlist.append(content)
+        return retlist
 
 class EinschreibenView(BrowserView):
 
@@ -133,7 +156,15 @@ class AbschlussView(BrowserView):
                     result['punkte'] = i.get('punkte')
                     summe += i.get('punkte')
                 ergebnisse.append(result)
-        if summe >= self.context.punkte and self.context.zertifikat:
+        quorum = self.context.aq_parent.quorum
+        maxpunkte = self.context.aq_parent.getMaxPunkte()
+        repeat = self.context.aq_parent.repeat
+        if repeat:
+            repeaturl = self.context.aq_parent.absolute_url() + '/@@reset'
+        else:
+            repeaturl = ''
+        certfail = False
+        if summe >= quorum and self.context.aq_parent.zertifikat:
             #be sure - you will never cheat the certprint
             user = ploneapi.user.get_current()
             fullname = user.getProperty('fullname')
@@ -143,8 +174,18 @@ class AbschlussView(BrowserView):
             urlid = hash_object.hexdigest()
             buttonurl = self.context.absolute_url() + '/@@printcert/?urlid=%s' %urlid
             button = True
-        return {'gesamtpunkte':summe, 'ergebnisse':ergebnisse, 'button':button, 'buttonurl':buttonurl}
+        elif summe <= quorum and self.context.aq_parent.zertifikat:
+            certfail = True
+        return {'gesamtpunkte':summe, 
+                'max':maxpunkte,
+                'fail': certfail,
+                'ergebnisse':ergebnisse,
+                'button':button,
+                'buttonurl':buttonurl,
+                'repeat': repeaturl
+                }
                 
+
 class PrintCertificate(BrowserView):
     """Druck des Zertifikats."""
 

@@ -16,7 +16,11 @@ class IKursabschluss(model.Schema):
     text = RichText(title=u"Haupttext zur Beendigung des Online-Kurses.",
                     required=True)
 
-    zertifikat = schema.Bool(title=u"Aktivieren, wenn ein Zertifikatsdruck gewünscht ist.")
+    misserfolg = schema.Text(title=u"Text bei Misserfolg",
+                             default=u"Leider liegt ihr Ergebnis unterhalb der Mindestanforderung für die Erlangung eines\
+                                      Zertifikates. Sie haben jedoch die Möglichkeit, den Kurs zu wiederholen. Wir wünschen\
+                                      Ihnen dabei viel Erfolg.",
+                             required=False)
 
     image = NamedBlobImage(title=u"Bild des Zertifikats",
                            description=u"Das Bild bildet den Hintergrund des PDF-Dokuments mit dem\
@@ -62,11 +66,11 @@ class IKursabschluss(model.Schema):
     datum_fontsize = schema.Int(title=u"Schriftgröße in pt für den Druck des Datums auf das Zertifikat.",
                                 default=14)
 
-    @invariant
-    def zertifikat_invariant(data):
-        if data.zertifikat:
-            if not data.image:
-                raise Invalid(u'Für den Druck des Zertifikats wird ein Hintergrundbild benötigt.')
+    #@invariant
+    #def zertifikat_invariant(data):
+    #    if data.zertifikat:
+    #        if not data.image:
+    #            raise Invalid(u'Für den Druck des Zertifikats wird ein Hintergrundbild benötigt.')
 
     @invariant
     def name_invariant(data):

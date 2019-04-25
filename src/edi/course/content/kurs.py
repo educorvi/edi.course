@@ -11,6 +11,7 @@ from zope.interface import implementer
 from plone.app.layout.navigation.navtree import buildFolderTree
 from plone.app.layout.navigation.navtree import NavtreeStrategyBase
 from Products.CMFPlone.browser.navtree import SitemapNavtreeStrategy, DefaultNavtreeStrategy
+from plone import api as ploneapi
 
 # from edi.course import _
 
@@ -51,25 +52,33 @@ class IKurs(model.Schema):
     effort = schema.TextLine(title = u"Zeitbedarf für die Teilnehmer",
                              required = True)
 
+    zertifikat = schema.Bool(title=u"Aktivieren, wenn ein Zertifikatsdruck gewünscht ist.")
 
-    # directives.widget(level=RadioFieldWidget)
-    # level = schema.Choice(
-    #     title=_(u'Sponsoring Level'),
-    #     vocabulary=LevelVocabulary,
-    #     required=True
-    # )
+    quorum = schema.Int(title = u"Anzahl von Punkten, die erreicht werden müssen, um ein Zertifikat zu erhalten.",
+                        default=0,
+                        required=True)
 
-    # fieldset('Images', fields=['logo', 'advertisement'])
-    # logo = namedfile.NamedBlobImage(
-    #     title=_(u'Logo'),
-    #     required=False,
-    # )
+    repeat = schema.Bool(title = u"Markieren, wenn der Teilnehmer den Kurs wiederholen darf falls die erforderlich Punktzahl\
+                         nicht erreicht werden konnte.")
 
 
 @implementer(IKurs)
 class Kurs(Container):
     """
     """
+
+    def getMaxPunkte(self):
+        """
+            Liest die benoteten Aufgaben
+        """
+        pfad = '/'.join(self.getPhysicalPath())
+        aufgaben = ploneapi.content.find(path=pfad, portal_type='Aufgabe', Aufgabenart='benotet')
+        summe = 0
+        for i in aufgaben:
+            obj = i.getObject()
+            summe += obj.punkte
+        return summe
+
 
     def getCourseItemsInOrder(self):
         """

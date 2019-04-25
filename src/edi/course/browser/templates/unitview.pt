@@ -34,8 +34,9 @@
         <div class="row">
            <div class="col-xs-12 col-sm-12">
            <h2>Inhalte der Lernheinheit</h2>
-           <p tal:repeat="content view/folderContents">
-             <a href="" tal:attributes="href content/getURL" tal:content="content/Title"/>
+           <p tal:repeat="content view/folderContents" tal:attributes="style content/fontsize">
+             <span tal:condition="content/glyph" tal:attributes="class content/glyph"/>
+               <a href="" tal:attributes="href content/url"><span tal:content="content/title"/></a>
            </p>
            </div>
         </div>

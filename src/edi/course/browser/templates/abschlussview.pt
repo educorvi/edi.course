@@ -29,7 +29,14 @@
 
       </div>
 
-      <div class="row">
+      <div class="row" tal:define="testdata view/getTestData">
+
+        <div class="col-xs-12 col-sm-12">
+
+          <p style="font-size:120%"><strong>Sie haben <span tal:content="testdata/gesamtpunkte"/> 
+             Punkte von <span tal:content="testdata/max"/> Punkten erzielt.</strong></p>
+
+        </div>
 
         <div class="col-xs-12 col-sm-12">
 
@@ -59,9 +66,15 @@
      </div>
 
      <div class="row">
+
        <div class="col-xs-12 col-sm-12">
 
-          <p><a tal:condition="testdata/button" tal:attributes="href testdata/buttonurl">
+          <div tal:condition="testdata/fail">
+              <p class="callout"><span tal:replace="context/misserfolg"/></p>
+              <p><a tal:attributes="href testdata/repeat" class="submit-widget button-field context">Kurs wiederholen</a></p>
+          </div>
+
+          <p><a tal:condition="python: testdata.get('button') and not testdata.get('fail')" tal:attributes="href testdata/buttonurl">
              <img tal:attributes="src string:${context/absolute_url}/@@images/image/mini"><br/> Zertifikat drucken</a></p>
 
           <div tal:replace="structure provider:plone.belowcontentbody" />

@@ -77,6 +77,35 @@
                   <a target="_blank" tal:attributes="href context/url" tal:content="context/institution"/>
               </div>
             </div>
+
+            <div tal:define="zertifikat view/getZertifikat" tal:condition="zertifikat/cert">
+            <hr>
+            <div style="margin-bottom:10px" class="row">
+              <div class="col-xs-8 col-sm-8">
+                  <strong>Zertifikatskurs:</strong>
+              </div>
+              <div class="col-xs-4 col-sm-4">
+                  <strong>ja</strong>
+              </div>
+            </div>
+            <div style="margin-bottom:10px" class="row">
+              <div class="col-xs-8 col-sm-8">
+                  <strong>Erreichbare Punkte:</strong>
+              </div>
+              <div class="col-xs-4 col-sm-4">
+                  <strong tal:content="zertifikat/max"/>
+              </div>
+            </div>
+            <div style="margin-bottom:10px" class="row">
+              <div class="col-xs-8 col-sm-8">
+                  <strong>Notwendige Punkte:</strong>
+              </div>
+              <div class="col-xs-4 col-sm-4">
+                  <strong tal:content="zertifikat/quorum"/>
+              </div>
+            </div>
+            </div>
+
             </div>
             </div><!--Block Ende-->
 
