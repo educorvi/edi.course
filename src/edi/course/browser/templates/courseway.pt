@@ -1,13 +1,13 @@
-<div class="row" style="background-color:#e6e4e4;height:40px;" tal:define="courseWay view/getCourseWay">
-  <div style="margin-top:10px">
-  <div class="col-xs-4 col-sm-2">
-    <a tal:condition="python:courseWay.get('vorgaenger')" tal:attributes="href python:courseWay.get('vorgaenger')[1];
-                      title python:courseWay.get('vorgaenger')[0]"><span class=glyphicon glyphicon-chevron-left"/>zurück</a>
-  </div>
-  <div class="col-xs-4 col-sm-8"></div>
-  <div class="col-xs-4 col-sm-2">
-    <a tal:condition="python:courseWay.get('nachfolger')" tal:attributes="href python:courseWay.get('nachfolger')[1];
-                                                          title python:courseWay.get('nachfolger')[0]">weiter</a>
-  </div>
-  </div>
+<div class="col-xs-12 col-sm-12" style="background-color:#e6e4e4;height:40px;margin:20px 0px;" tal:define="courseWay view/getCourseWay">
+    <div class="row" style="margin-top:10px">
+      <div class="col-xs-4 col-sm-2 col-md-2">
+        <a tal:condition="python:courseWay.get('vorgaenger')" tal:attributes="href python:courseWay.get('vorgaenger')[1];
+                          title python:courseWay.get('vorgaenger')[0]"><span class="glyphicon glyphicon-chevron-left"/>zurück</a>
+      </div>
+      <div class="col-xs-5 col-sm-8 col-md-8"></div>
+      <div class="col-xs-3 col-sm-2 col-md-2">
+        <a tal:condition="python:courseWay.get('nachfolger')" tal:attributes="href python:courseWay.get('nachfolger')[1];
+                          title python:courseWay.get('nachfolger')[0]" style="align:right;">weiter<span class="glyphicon glyphicon-chevron-right"/></a>
+      </div>
+    </div>
 </div>

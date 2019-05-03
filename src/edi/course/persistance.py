@@ -135,15 +135,16 @@ def getGlobalStats(kurs):
     for doc in cc.find():
         entry = {}
         studentid = doc.get('studentid')
-        user = ploneapi.user.get(userid = studentid)
-        entry['studentid'] = studentid
-        entry['fullname'] = user.getProperty('fullname')
-        entry['email'] = user.getProperty('email')
-        entry['in'] = doc.get('date').strftime('%d.%m.%Y %H:%M')
-        entry['fin'] = ''
-        if doc.get('finished'):
-            entry['fin'] = doc.get('finished').strftime('%d.%m.%Y %H:%M')
-        alldocs.append(entry)
+        if studentid:
+            user = ploneapi.user.get(userid = studentid)
+            entry['studentid'] = studentid
+            entry['fullname'] = user.getProperty('fullname')
+            entry['email'] = user.getProperty('email')
+            entry['in'] = doc.get('date').strftime('%d.%m.%Y %H:%M')
+            entry['fin'] = ''
+            if doc.get('finished'):
+                entry['fin'] = doc.get('finished').strftime('%d.%m.%Y %H:%M')
+            alldocs.append(entry)
     return alldocs    
 
 def resetUserData(kurs, studentid):
@@ -157,3 +158,17 @@ def resetUserData(kurs, studentid):
     uc = cdb.user_collection
     update = uc.update_one({"_id": objid},{"$set": studentdata}, upsert=False)
     return update
+
+def resetComplete(kurs, studentid):
+    """setzt alle Daten eines Benutzers komplett zurück"""
+
+    cdb = mongoclient[kurs.id]
+    cc = cdb.course_collection
+    myquery = {'studentid': studentid}
+    ret = cc.delete_one(myquery)
+    studentdata = getStudentData(kurs, studentid)
+    objid = studentdata.get('_id')
+    cdb = mongoclient[kurs.id]
+    uc = cdb.user_collection
+    ret = uc.delete_one({"_id": objid})
+    return True 

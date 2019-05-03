@@ -5,7 +5,7 @@ from plone import api as ploneapi
 from Products.Five import BrowserView
 from edi.course.pdfgen import createpdf
 from edi.course.persistance import einschreiben, getStudentData, resetUserData, getFinalData
-from edi.course.persistance import getGlobalStats
+from edi.course.persistance import getGlobalStats, resetComplete
 
 def sizeof_fmt(num, suffix='Byte'):
     for unit in ['','k','M','G','T','P','E','Z']:
@@ -289,7 +289,8 @@ class AudioVideoView(BrowserView):
 class ResetView(BrowserView):
 
     def __call__(self):
-        message = u"Sie haben die Benutzerdaten zurückgesetzt."
+        message = u"Die Daten des Benutzers im aktuellen Kurs wurden gelöscht. Mit der Bearbeitung des Kurses kann erneut begonnen werden."
+        errmessage = u"Beim Löschen der Benutzerdaten ist leider ein Fehler aufgetreten."
         studentid = ploneapi.user.get_current().getId()
         kurs = self.context
         update = resetUserData(kurs, studentid)
@@ -297,4 +298,14 @@ class ResetView(BrowserView):
             ploneapi.portal.show_message(message=message, request=self.request, type='info')
         else:
             ploneapi.portal.show_message(message=errmessage, request=self.request, type='error')
+        return self.request.response.redirect(self.context.absolute_url())
+
+class ResetCompleteView(BrowserView):
+
+    def __call__(self):
+        message = u"Sie haben die ALLE Benutzerdaten zurückgesetzt."
+        studentid = ploneapi.user.get_current().getId()
+        kurs = self.context
+        update = resetComplete(kurs, studentid)
+        ploneapi.portal.show_message(message=message, request=self.request, type='info')
         return self.request.response.redirect(self.context.absolute_url())

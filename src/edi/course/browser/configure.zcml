@@ -57,6 +57,13 @@
       />
 
   <browser:page
+      name="resetcomplete"
+      for="edi.course.content.kurs.IKurs"
+      class=".views.ResetCompleteView"
+      permission="zope2.View"
+      />
+
+  <browser:page
       name="printcert"
       for="edi.course.content.kursabschluss.IKursabschluss"
       class=".views.PrintCertificate"
