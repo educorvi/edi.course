@@ -43,6 +43,10 @@ def createpdf(filehandle, data):
         c.setFont(schriftart, data.get('datum_fontsize'))
         c.drawString(data.get('datum_x')*cm, data.get('datum_y')*cm, data.get('datum'))
 
+    if data.get('print_certid'):
+        c.setFont(schriftart, data.get('certid_fontsize'))
+        c.drawString(data.get('certid_x')*cm, data.get('certid_y')*cm, data.get('certid'))
+
     c.showPage()
     c.save()
     return filehandle

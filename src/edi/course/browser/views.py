@@ -19,7 +19,6 @@ class TestView(BrowserView):
     def test(self):
         """Return a catalog search result of sessions to show."""
 
-        import pdb;pdb.set_trace()
 
 class CourseView(BrowserView):
     """Die Ansicht der Startseite eines Online-Kurses."""
@@ -222,6 +221,13 @@ class PrintCertificate(BrowserView):
         data['name_y'] = self.context.name_y
         data['name_fontsize'] = self.context.name_fontsize
 
+        kursid = self.context.aq_parent.id
+        data['print_certid'] = self.context.print_certid
+        data['certid'] = hashlib.md5(u'%s %s' %(kursid, user.getProperty('fullname'))).hexdigest()
+        data['certid_x'] = self.context.certid_x
+        data['certid_y'] = self.context.certid_y
+        data['certid_fontsize'] = self.context.certid_fontsize
+
         filehandle = tempfile.TemporaryFile()
 
         pdf = createpdf(filehandle, data)
@@ -285,6 +291,12 @@ class AudioVideoView(BrowserView):
             datei['filename'] = self.context.datei.filename
         return datei
 
+    def getEmbed(self):
+        retcode = ''
+        if self.context.embed:
+            retcode = self.context.embed
+        return retcode
+            
 
 class ResetView(BrowserView):
 

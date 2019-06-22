@@ -45,13 +45,15 @@
           </div>
         </div>
 
+        <div tal:define="embed view/getEmbed" tal:condition="python:not view.getMedia() and embed" class="row">
+          <div class="col-xs-12 col-sm-12">
+            <div class="embed-responsive embed-responsive-16by9">
+              <div tal:replace="structure embed"/>
+            </div>
+          </div>
+        </div>
 
         <span tal:condition="context/nachtext" tal:replace="structure context/nachtext/output"/>
-
-
-
-
-
 
         <div tal:replace="structure provider:plone.belowcontentbody" />
 

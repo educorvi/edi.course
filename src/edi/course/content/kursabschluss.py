@@ -27,12 +27,12 @@ class IKursabschluss(model.Schema):
                            Zertifikat",
                            required=False)
 
-    punkte = schema.Int(title=u"Notwendige Punktzahl für das Zertifikat",
-                        description=u"Angabe, welche Punktzahl für den Druck eines Zertifikats erreicht\
-                        werden musste. 0 Punkte heisst - das Zertifikat wird ohne Bedingungen am Ende des Kurses\
-                        zum Ausdruck angeboten.",
-                        default=0,
-                        required=True)
+    #punkte = schema.Int(title=u"Notwendige Punktzahl für das Zertifikat",
+    #                    description=u"Angabe, welche Punktzahl für den Druck eines Zertifikats erreicht\
+    #                    werden musste. 0 Punkte heisst - das Zertifikat wird ohne Bedingungen am Ende des Kurses\
+    #                    zum Ausdruck angeboten.",
+    #                    default=0,
+    #                    required=True)
 
     print_name = schema.Bool(title=u"Aktivieren, wenn der Name auf das Zertifikat gedruckt werden soll.",
                              description=u"Das Feld wird nur berücksichtigt, wenn der Zertifikatsdruck aktiviert wurde.")
@@ -65,6 +65,24 @@ class IKursabschluss(model.Schema):
 
     datum_fontsize = schema.Int(title=u"Schriftgröße in pt für den Druck des Datums auf das Zertifikat.",
                                 default=14)
+
+
+    print_certid = schema.Bool(title=u"Aktivieren, wenn eine auf das Zertifikats-ID gedruckt werden soll.",
+                             description=u"Das Feld wird nur berücksichtigt, wenn der Zertifikatsdruck aktiviert wurde.")
+
+    certid_x = schema.Float(title=u"X-Koordinate für den Druck der Zertifikats-ID in cm.",
+                          description=u"Angabe der X-Koordinate für den Druck der Zertifikats-ID auf das Zertifikat.\
+                          Bitte vom linken unteren Blattrand aus messen (virtueller 0-Punkt des Koordinatensystems).",
+                          default=5.0)
+
+    certid_y = schema.Float(title=u"Y-Koordinate für den Druck der Zertifikats-ID in cm.",
+                          description=u"Angabe der Y-Koordinate für den Druck der Zertifikats-ID auf das Zertifikat.\
+                          Bitte vom linken unteren Blattrand aus messen (virtueller 0-Punkt des Koordinatensystems).",
+                          default=6.0)
+
+    certid_fontsize = schema.Int(title=u"Schriftgröße in pt für den Druck der Zertifikats-ID auf das Zertifikat.",
+                                default=14)
+
 
     #@invariant
     #def zertifikat_invariant(data):

@@ -116,9 +116,13 @@
             <div class="col-xs-12 col-sm-12">
             <h2>Lerneinheiten</h2>
             <div style="margin-bottom:10px" tal:define="lerneinheiten view/getLerneinheiten" class="row">
-              <div class="col-xs-12 col-sm-12">
+              <div tal:condition="view/checkStudentData" class="col-xs-12 col-sm-12">
                   <p tal:repeat="einheit lerneinheiten">
                     <a tal:attributes="href einheit/url" tal:content="einheit/title"/>
+                  </p>
+              </div>
+              <div tal:condition="not:view/checkStudentData" class="col-xs-12 col-sm-12">
+                  <p tal:repeat="einheit lerneinheiten" tal:content="einheit/title">
                   </p>
               </div>
             </div>
