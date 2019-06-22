@@ -8,8 +8,8 @@
 
   <browser:viewlet
      name="notiz-viewlet"
-     for="plone.app.contenttypes.interfaces.IDocument"
-     manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
+     for="*"
+     manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
      layer="edi.course.interfaces.IEdiCourseLayer"
      class=".notiz_viewlet.NotizViewlet"
      template="notiz_viewlet.pt"

@@ -1,3 +1,11 @@
-<div class="days_to_conf">
-    ${view/message}
+<div class="col-xs-12 col-sm-12">
+    <h3>Notizen zum Lernstoff</h3>
+    <form action="" tal:attributes="action view/get_action">
+        <div tal:repeat="notiz view/get_notizen" class="form-group">
+            <label for="exampleFormControlInput1" tal:attributes="for notiz/name" tal:content="notiz/description">Frage, Aufgabe, These</label>
+            <textarea class="form-control" rows="2" id="" tal:attributes="id notiz/name; name notiz/name" placeholder="Platz für Ihre Notiz">
+              </textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Speichern</button>
+    </form>
 </div>
