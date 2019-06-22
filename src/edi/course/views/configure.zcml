@@ -8,7 +8,7 @@
 
     <browser:page
        name="validate-notizen"
-       for="Products.CMFCore.interfaces.IFolderish"
+       for="zope.interface.Interface"
        class=".validate_notizen.ValidateNotizen"
        permission="zope2.View"
        />
