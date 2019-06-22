@@ -1,0 +1,17 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="edi.course">
+
+  -*- extra stuff goes here -*-
+
+    <browser:page
+       name="validate-notizen"
+       for="Products.CMFCore.interfaces.IFolderish"
+       class=".validate_notizen.ValidateNotizen"
+       permission="zope2.View"
+       />
+
+
+</configure>
