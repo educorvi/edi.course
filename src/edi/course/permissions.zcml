@@ -7,6 +7,12 @@
   <!-- -*- extra stuff goes here -*- -->
 
     <permission
+        id="edi.course.AddNotiz"
+        title="edi.course: Add Notiz"
+    />
+
+
+    <permission
         id="edi.course.AddNotizbuch"
         title="edi.course: Add Notizbuch"
     />

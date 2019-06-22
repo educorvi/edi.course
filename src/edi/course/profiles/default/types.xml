@@ -7,4 +7,5 @@
   <object meta_type="Dexterity FTI" name="Kursabschluss"/>
   <object meta_type="Dexterity FTI" name="Audiovideo"/>
   <object meta_type="Dexterity FTI" name="Notizbuch"/>
+  <object meta_type="Dexterity FTI" name="Notiz"/>
 </object>
