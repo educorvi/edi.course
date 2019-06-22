@@ -14,9 +14,7 @@
         title="Kursnotiz"
         description="Dieses Behavior erweitert das Schema der Standard-Artikeltypen um die Moeglichkeit von Notizen."
         provides=".kursnotiz.IKursnotiz"
-        factory=".kursnotiz.Kursnotiz"
-        marker=".kursnotiz.IKursnotizMarker"
+        for="plone.dexterity.interfaces.IDexterityContent"
         />
-
 
 </configure>
