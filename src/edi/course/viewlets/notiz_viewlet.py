@@ -40,8 +40,9 @@ class NotizViewlet(ViewletBase):
                     notizid = normalizer.normalize(i['title'])
                     i['name'] = notizid
                     i['data'] = ''
-                    if notizid in notizbuch.keys():
-                        i['data'] = notizbuch[notizid].notiz
+                    if notizbuch:
+                        if notizid in notizbuch.keys():
+                            i['data'] = notizbuch[notizid].notiz
                     notizen.append(i)
                 return notizen
         return []
