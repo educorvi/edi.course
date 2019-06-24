@@ -6,6 +6,14 @@
 
   -*- extra stuff goes here -*-
 
+  <browser:page
+     name="notiz-view"
+     for="Products.CMFCore.interfaces.IFolderish"
+     class=".notiz_view.NotizView"
+     template="notiz_view.pt"
+     permission="zope2.View"
+     />
+
     <browser:page
        name="validate-notizen"
        for="zope.interface.Interface"
