@@ -104,9 +104,9 @@ class UnitView(BrowserView):
 
         fontsizes = {'Document':'font-size:130%;',
                      'Aufgabe':'font-size:100%;',
-                     'Audiovideo':'font-size:100%;'}
+                     'Audiovideo':'font-size:130%;'}
 
-        showtypes = ['Document', 'Aufgabe', 'Audiovideo']
+        showtypes = ['Document', 'Aufgabe', 'Audiovideo', 'Checkliste']
         retlist = []
         for i in self.context.getFolderContents():
             if i.portal_type in showtypes:
