@@ -24,8 +24,9 @@ class NotizViewlet(ViewletBase):
 
     def get_notizbuch(self, homefolder):
         kurs = getCourse(self.context)
-        if kurs.id in homefolder.keys():
-            return homefolder[kurs.id]
+        if kurs:
+            if kurs.id in homefolder.keys():
+                return homefolder[kurs.id]
         return ''
 
 

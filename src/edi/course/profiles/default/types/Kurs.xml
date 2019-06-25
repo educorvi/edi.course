@@ -23,6 +23,7 @@
   <property name="allowed_content_types">
     <element value="Lerneinheit" />
     <element value="Kursabschluss" />
+    <element value="Folder" />
       <!--
     <element value="Document" />
     <element value="File" />

@@ -7,8 +7,8 @@
   -*- extra stuff goes here -*-
 
   <browser:page
-     name="notiz-view"
-     for="Products.CMFCore.interfaces.IFolderish"
+     name="notizview"
+     for="edi.course.content.notiz.INotiz"
      class=".notiz_view.NotizView"
      template="notiz_view.pt"
      permission="zope2.View"

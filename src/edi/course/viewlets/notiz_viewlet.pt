@@ -1,5 +1,6 @@
 <div class="col-xs-12 col-sm-12">
-    <h3>Notizen zum Lernstoff</h3>
+    <h3 tal:condition="context/headline" tal:content="context/headline"></h3>
+    <p class="documentDescription" tal:condition="context/teasertext" tal:content="structure context/teasertext"/>
     <form action="" tal:attributes="action view/get_action">
         <div tal:repeat="notiz view/get_notizen" class="form-group">
             <label for="exampleFormControlInput1" tal:attributes="for notiz/name" tal:content="notiz/description">Frage, Aufgabe, These</label>

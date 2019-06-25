@@ -5,14 +5,26 @@
       i18n:domain="edi.course"
       metal:use-macro="context/main_template/macros/master">
 <body>
-    <metal:block fill-slot="content-core">
-      <div class="heading">
-        <li i18n:translate="">
-          Sample View
-        </li>
-      <span tal:content="view/msg">this gets replaced</span>
+<metal:main fill-slot="main">
+    <tal:main-macro metal:define-macro="main">
+
+    <div class="row" tal:define="content view/get_content">
+      <div class="col-xs-12 col-sm-12">
+
+      <h3 tal:condition="content">Thema: <span tal:content="content/title"/></h3>
+      <p class="discreet" tal:content="content/description"/>
+      <div tal:condition="content/text">
+          <button class="btn btn-default">Weiterlesen</button>
+          <!--<span tal:replace="structure content/text"/>-->
       </div>
-    </metal:block>
+      <h2 tal:content="context/title"/>
+      <p class="documentDescription" tal:content="context/description"/>
+      <p tal:content="context/notiz"/>
+      </div>
+    </div>
+
+    </tal:main-macro>
+</metal:main>
 
 <body>
 </html>

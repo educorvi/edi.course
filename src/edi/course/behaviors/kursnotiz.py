@@ -34,8 +34,16 @@ class IKursnotiz(model.Schema):
     model.fieldset(
         'notizen',
         label=u"Notizen zum Inhalt",
-        fields=['notizen',]
+        fields=['headline', 'teasertext', 'notizen']
     )
+
+    headline = schema.TextLine(title=u"Überschrift über den Block Notizen",
+                               description=u"Du kannst hier eine Überschrift über die Notizen setzen. Keine Eingabe führt zu keiner Überschrift",
+                               default=u"Notizen zum Inhalt",
+                               required=False,)
+
+    teasertext = schema.Text(title=u"Einleitungstext vor allen Notizen",
+                       required = False)
 
     form.widget('notizen', DataGridFieldFactory)
     notizen = schema.List(title=u'Fragen, Thesen oder Aufgaben für Notizen',
