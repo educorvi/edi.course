@@ -5,14 +5,58 @@
       i18n:domain="edi.course"
       metal:use-macro="context/main_template/macros/master">
 <body>
-    <metal:block fill-slot="content-core">
-      <div class="heading">
-        <li i18n:translate="">
-          Sample View
-        </li>
-      <span tal:content="view/msg">this gets replaced</span>
-      </div>
-    </metal:block>
+<metal:main fill-slot="main">
+    <tal:main-macro metal:define-macro="main">
 
+    <div class="row">
+      <div class="col-xs-12 col-sm-12">
+        <div tal:replace="structure provider:plone.abovecontenttitle" />
+      </div>
+    </div>
+
+
+    <div class="row">
+    <div class="col-xs-12 col-sm-12">
+
+    <h2 tal:content="context/title"/>
+    <p tal:condition="context/description" class="documentDescription" tal:content="context/description"/>
+
+    <p tal:condition="context/text" tal:replace="structure context/text/output"/>
+
+    </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12">
+        <h3>Checkliste</h3>
+      </div>
+    </div>
+
+    <div class="row" tal:repeat="aussage context/aussagen">
+      <div class="col-xs-8 col-sm-8">
+        <p><strong tal:content="aussage/aussage"/></p>
+      </div>
+      <div class="col-xs-4 col-sm-4">
+        <select class="form-control">
+          <option tal:repeat="option context/optionen" tal:content="option/option"></option>
+        </select>
+      </div>
+      <hr/>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12">
+        <button type="button" class="btn btn-primary">Speichern</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12">
+        <div tal:replace="structure provider:plone.belowcontentbody" />
+      </div>
+    </div>
+
+    </tal:main-macro>
+</metal:main>
 <body>
 </html>
