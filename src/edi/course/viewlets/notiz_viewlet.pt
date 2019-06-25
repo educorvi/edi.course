@@ -3,8 +3,11 @@
     <p class="documentDescription" tal:condition="context/teasertext" tal:content="structure context/teasertext"/>
     <form action="" tal:attributes="action view/get_action">
         <div tal:repeat="notiz view/get_notizen" class="form-group">
-            <label for="exampleFormControlInput1" tal:attributes="for notiz/name" tal:content="notiz/description">Frage, Aufgabe, These</label>
-            <textarea class="form-control" rows="2" id="" tal:attributes="id notiz/name; name notiz/name" tal:content="notiz/data"></textarea>
+            <label tal:attributes="for notiz/name" tal:content="notiz/description">Frage, Aufgabe, These</label>
+            <textarea tal:condition="python:notiz.get('fieldformat')=='Text'" class="form-control" rows="2" id="" 
+                      tal:attributes="id notiz/name; name notiz/name" tal:content="notiz/data"></textarea>
+            <input tal:condition="python:notiz.get('fieldformat')=='Zeile'" type="text" class="form-control"
+                      tal:attributes="id notiz/name; name notiz/name; value notiz/data">
         </div>
         <button type="submit" class="btn btn-primary">Speichern</button>
     </form>

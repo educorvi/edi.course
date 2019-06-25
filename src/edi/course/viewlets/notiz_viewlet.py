@@ -39,6 +39,11 @@ class NotizViewlet(ViewletBase):
                 notizen = []
                 for i in self.context.notizen:
                     notizid = normalizer.normalize(i['title'])
+                    if not i.has_key('fieldformat'):
+                        i['fieldformat'] = u'Text'
+                    fieldformat = i['fieldformat']
+                    if fieldformat != u'Zeile':
+                        i['fieldformat'] = u'Text'
                     i['name'] = notizid
                     i['data'] = ''
                     if notizbuch:

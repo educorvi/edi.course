@@ -12,7 +12,11 @@ from zope.component import adapter
 from zope.interface import Interface
 from zope.interface import implementer
 from zope.interface import provider
+from zope.schema.vocabulary import SimpleVocabulary
 
+
+values = [u'Zeile', u'Text']
+input_vocabulary = SimpleVocabulary.fromValues(values)
 
 class IKursnotizMarker(Interface):
     pass
@@ -24,6 +28,11 @@ class INotizData(model.Schema):
 
     description = schema.Text(
         title=u'Frage, These oder Aufgabe zu der sich der Lernende eine Notiz machen soll')
+
+    fieldformat = schema.Choice(
+        title=u'Format des Eingabefeldes',
+        vocabulary=input_vocabulary,
+        default=u'Text')
 
 
 @provider(IFormFieldProvider)
