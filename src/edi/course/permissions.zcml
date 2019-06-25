@@ -7,6 +7,12 @@
   <!-- -*- extra stuff goes here -*- -->
 
     <permission
+        id="edi.course.AddCheckliste"
+        title="edi.course: Add Checkliste"
+    />
+
+
+    <permission
         id="edi.course.AddNotiz"
         title="edi.course: Add Notiz"
     />

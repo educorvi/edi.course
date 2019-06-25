@@ -8,4 +8,5 @@
   <object meta_type="Dexterity FTI" name="Audiovideo"/>
   <object meta_type="Dexterity FTI" name="Notizbuch"/>
   <object meta_type="Dexterity FTI" name="Notiz"/>
+  <object meta_type="Dexterity FTI" name="Checkliste"/>
 </object>
