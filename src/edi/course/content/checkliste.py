@@ -16,9 +16,9 @@ class IAussagen(model.Schema):
 
 class IOptionen(model.Schema):
 
-    option = schema.TextLine(title=u"Option zur Auswahl durch den Benutzer",
+    option = schema.TextLine(title=u"Antwortoption",
                         required=True)
-    faktor = schema.Int(title=u"Die Option geht mit dem Faktorwert in die Berechnung ein.",
+    faktor = schema.Int(title=u"Punkte",
                         default=1,
                         required=True)
 
@@ -36,9 +36,14 @@ class ICheckliste(model.Schema):
         description=u'Gib hier die Aussagen ein, die der Lernende mit den nachfolgenden Optionen beantworten soll.',
         value_type = DictRow(title=u'Aussagen', schema=IAussagen))
 
+    summe = schema.Bool(title=u"Auswertung der Checkliste",
+                        description=u"Nur bei gesetztem Haken findet eine Punkte Auswertung der Checkliste statt.",
+                        default=True)
+
     form.widget('optionen', DataGridFieldFactory)
-    optionen = schema.List(title=u'Antwortoptione für die Checkliste',
-        description=u'Gib hier die Antwortoptionen ein, mit denen der Lernende die Punkte der Checkliste beantworten soll.',
+    optionen = schema.List(title=u'Antwortoptionen für die Checkliste',
+        description=u'Gib hier die Antwortoptionen und die entsprechende Punktzahl ein. Die Punkte werden ignoriert wenn die Auswertung der\
+                      Checkliste deaktiviert wurde.',
         value_type = DictRow(title=u'Antwortoptionen', schema=IOptionen))
 
 

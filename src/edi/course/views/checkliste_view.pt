@@ -32,13 +32,16 @@
       </div>
     </div>
 
+    <form tal:attributes="action view/form_url">
+
     <div class="row" tal:repeat="aussage context/aussagen">
       <div class="col-xs-8 col-sm-8">
         <p><strong tal:content="aussage/aussage"/></p>
       </div>
       <div class="col-xs-4 col-sm-4">
         <select class="form-control">
-          <option tal:repeat="option context/optionen" tal:content="option/option"></option>
+          <option>bitte auswählen</option>
+          <option required tal:repeat="option context/optionen" tal:content="option/option"></option>
         </select>
       </div>
       <hr/>
@@ -49,6 +52,8 @@
         <button type="button" class="btn btn-primary">Speichern</button>
       </div>
     </div>
+
+    </form>
 
     <div class="row">
       <div class="col-xs-12 col-sm-12">
