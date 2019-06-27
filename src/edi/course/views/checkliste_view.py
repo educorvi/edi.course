@@ -13,7 +13,7 @@ class ChecklisteView(BrowserView):
     # template = ViewPageTemplateFile('checkliste_view.pt')
 
     def form_url(self):
-        return self.context.absolute_url() + '/validate_checkliste'
+        return self.context.absolute_url() + '/validate-checklist'
 
     def __call__(self):
         self.msg = _(u'A small message')

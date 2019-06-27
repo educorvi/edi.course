@@ -8,7 +8,7 @@
 
     <browser:page
        name="validate-checklist"
-       for="Products.CMFCore.interfaces.IFolderish"
+       for="edi.course.content.checkliste.ICheckliste"
        class=".validate_checklist.ValidateChecklist"
        permission="zope2.View"
        />
