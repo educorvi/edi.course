@@ -6,7 +6,7 @@
       metal:use-macro="context/main_template/macros/master">
 <body>
 <metal:main fill-slot="main">
-    <tal:main-macro metal:define-macro="main">
+    <tal:main-macro metal:define-macro="main" tal:define="data view/get_data">
 
     <div class="row">
       <div class="col-xs-12 col-sm-12">
@@ -37,11 +37,20 @@
     <div class="row" tal:repeat="aussage context/aussagen">
       <div class="col-xs-8 col-sm-8">
         <p><strong tal:content="aussage/aussage"/></p>
+        <input tal:condition="python: aussage['fieldformat'] == 'Zeile' and not data.has_key(context.aussagen.index(aussage+1000))" 
+               tal:attributes="name python:context.aussagen.index(aussage+1000)">
+        <input tal:condition="python: aussage['fieldformat'] == 'Zeile' and data.has_key(context.aussagen.index(aussage+1000))" 
+               tal:attributes="name python:context.aussagen.index(aussage+1000); value python:data.get(context.aussagen.index(aussage+1000))">
+        <textarea tal:condition="python: aussage['fieldformat'] == 'Text'" tal:attributes="name python:context.aussagen.index(aussage+1000)"
+                  tal:content="python data.get(context.aussagen.index(aussage+1000))"/>
       </div>
       <div class="col-xs-4 col-sm-4">
-        <select tal:attributes="name aussage/aussage" class="form-control">
+        <select tal:attributes="name python:context.aussagen.index(aussage)" class="form-control">
           <option>bitte auswählen</option>
-          <option required tal:repeat="option context/optionen" tal:content="option/option"></option>
+          <option required tal:repeat="option context/optionen" 
+            tal:condition="python: data.get(context.aussagen.index(aussage)) == option["option"]" selected tal:content="option/option"></option>
+          <option required tal:repeat="option context/optionen"
+            tal:condition="python: data.get(context.aussagen.index(aussage)) != option["option"]" tal:content="option/option"></option>
         </select>
       </div>
       <div class="col-xs-12 col-sm-12">

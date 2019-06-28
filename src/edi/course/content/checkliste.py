@@ -8,11 +8,18 @@ from collective.z3cform.datagridfield import DictRow
 from zope import schema
 from zope.interface import implementer
 
+values = [u'Keine', u'Zeile', u'Text']
+input_vocabulary = SimpleVocabulary.fromValues(values)
 
 class IAussagen(model.Schema):
 
     aussage = schema.TextLine(title=u"Aussage oder Punkt auf der Checkliste",
                         required=True)
+
+    notiz = schema.Choice(title=u"Notiz zur Aussage",
+                        required=True,
+                        default=u'Keine'
+                        vocabulary=input_vocabulary)
 
 class IOptionen(model.Schema):
 
@@ -33,7 +40,8 @@ class ICheckliste(model.Schema):
 
     form.widget('aussagen', DataGridFieldFactory)
     aussagen = schema.List(title=u'Aussagen für die Checkliste',
-        description=u'Gib hier die Aussagen ein, die der Lernende mit den nachfolgenden Optionen beantworten soll.',
+        description=u'Gib hier die Aussagen ein, die der Lernende mit den nachfolgenden Optionen beantworten soll und wähle aus, ob dazu eine\
+                      Notiz angefertigt werden soll. Du kannst zwischen Eingabe-Zeile und Text-Feld wählen.',
         value_type = DictRow(title=u'Aussagen', schema=IAussagen))
 
     summe = schema.Bool(title=u"Auswertung der Checkliste",

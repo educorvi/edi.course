@@ -12,6 +12,12 @@ class ChecklisteView(BrowserView):
     # the configure.zcml registration of this view.
     # template = ViewPageTemplateFile('checkliste_view.pt')
 
+    def default_data(self):
+        data = {}
+        for i in self.context.aussagen:
+            if i['fieldformat'] != 'keine':
+                #data[self.context.aussage.index(i)] = u'bitte auswählen'
+
     def form_url(self):
         return self.context.absolute_url() + '/validate-checklist'
 

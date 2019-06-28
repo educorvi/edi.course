@@ -13,4 +13,14 @@ class ValidateChecklist(BrowserView):
         cdb = mongoclient[kurs.id]
         clc = cdb.checklist_collection
         studentid = ploneapi.user.get_current().getId()
-        import pdb;pdb.set_trace()
+        if self.request.form:
+            checklistpost = {'studentid':studentid, 
+                             'checkliste':self.context.UID(), 
+                             'data', self.request.form}
+            clc_id = cls.insert_one(checklistpost).inserted_id
+            if clc_id:
+                ploneapi.portal.show_message(message='Ihre Eingaben zu dieser Checkliste wurden erfolgreich gespeichert.', 
+                                             request=self.request,
+                                             type='info')
+        url = self.context.absolute_url()
+        return self.redirect(url)
