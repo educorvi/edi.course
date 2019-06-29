@@ -7,6 +7,7 @@ from collective.z3cform.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield import DictRow
 from zope import schema
 from zope.interface import implementer
+from zope.schema.vocabulary import SimpleVocabulary
 
 values = [u'Keine', u'Zeile', u'Text']
 input_vocabulary = SimpleVocabulary.fromValues(values)
@@ -16,9 +17,9 @@ class IAussagen(model.Schema):
     aussage = schema.TextLine(title=u"Aussage oder Punkt auf der Checkliste",
                         required=True)
 
-    notiz = schema.Choice(title=u"Notiz zur Aussage",
+    fieldformat = schema.Choice(title=u"Notiz zur Aussage",
                         required=True,
-                        default=u'Keine'
+                        default=u'Keine',
                         vocabulary=input_vocabulary)
 
 class IOptionen(model.Schema):
