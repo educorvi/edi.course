@@ -21,10 +21,9 @@ class ChecklisteView(BrowserView):
         clc = cdb.checklist_collection
         studentid = ploneapi.user.get_current().getId()
         formdata = clc.find_one({'studentid':studentid, 'checkliste':self.context.UID()}, sort=[( '_id', pymongo.DESCENDING )])
-
         if formdata:
             data = formdata.get('data')
-        print data
+            data['summe'] = formdata.get('summe')
         return data
 
     def form_url(self):

@@ -58,9 +58,22 @@
       </div>
     </div>
 
+    <div tal:condition="python:data.get('summe')" class="row">
+      <div class="col-xs-9 col-sm-9">
+         <p class="documentDescription">Summe</p>
+      </div>
+      <div class="col-xs-3 col-sm-3">
+         <p class="documentDescription" tal:content="data/summe"/>
+      </div>
+      <div class="col-xs-12 col-sm-12">
+        <hr>
+      </div>
+    </div>
+
     <div class="row">
       <div class="col-xs-12 col-sm-12">
-        <button type="submit" class="btn btn-primary">Speichern</button>
+        <button tal:condition="not:data" type="submit" class="btn btn-primary">Speichern</button>
+        <button tal:condition="data" type="submit" class="btn btn-primary">Aktualisieren</button>
       </div>
     </div>
 
