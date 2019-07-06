@@ -64,6 +64,13 @@
       />
 
   <browser:page
+      name="setfloat"
+      for="edi.course.content.kurs.IKurs"
+      class=".views.setFloat"
+      permission="zope2.View"
+      />
+
+  <browser:page
       name="printcert"
       for="edi.course.content.kursabschluss.IKursabschluss"
       class=".views.PrintCertificate"

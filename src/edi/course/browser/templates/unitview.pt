@@ -19,7 +19,7 @@
            </div>
            <div style="border: 1px solid #cccccc;margin-bottom:10px;" class="col-xs-x12 col-sm-2">
              <h4>Zeitbedarf</h4>
-             <p tal:content="context/effort"/>
+             <p><span tal:content="context/effort"/> Stunden</p>
            </div>
         </div>
         <div class="row">

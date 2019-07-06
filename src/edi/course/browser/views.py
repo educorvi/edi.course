@@ -93,6 +93,9 @@ class CourseView(BrowserView):
         cert['quorum'] = self.context.quorum
         return cert 
 
+    def getSumAufwand(self):
+        return self.context.getEffort()
+
 
 class UnitView(BrowserView):
     """Viewklasse fuer die Lerneinheit"""
@@ -319,5 +322,16 @@ class ResetCompleteView(BrowserView):
         studentid = ploneapi.user.get_current().getId()
         kurs = self.context
         update = resetComplete(kurs, studentid)
+        ploneapi.portal.show_message(message=message, request=self.request, type='info')
+        return self.request.response.redirect(self.context.absolute_url())
+
+class setFloat(BrowserView):
+
+    def __call__(self):
+        message = u"Es wurden alle Lerneinheiten korrigiert."
+        brains = ploneapi.content.find(portal_type="Lerneinheit")
+        for i in brains:
+            obj = i.getObject()
+            obj.effort = 1.0
         ploneapi.portal.show_message(message=message, request=self.request, type='info')
         return self.request.response.redirect(self.context.absolute_url())

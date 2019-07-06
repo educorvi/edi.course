@@ -13,8 +13,8 @@ class ILerneinheit(model.Schema):
     """ Marker interface for Lerneinheit
     """
 
-    effort = schema.TextLine(title=u"Zeitbedarf für diese Lerneinheit",
-                             required=True)
+    effort = schema.Float(title=u"Zeitbedarf für diese Lerneinheit in Stunden",
+                          required=True)
 
     goals = RichText(title=u"Lernziel der Einheit",
                      description=u"Kurze Beschreibung welches Lernziel mit dieser Einzeit erreicht werden soll.",

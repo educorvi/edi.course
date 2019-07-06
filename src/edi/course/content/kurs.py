@@ -49,8 +49,8 @@ class IKurs(model.Schema):
     length = schema.TextLine(title = u"Dauer des Kurses",
                              required = True)
 
-    effort = schema.TextLine(title = u"Zeitbedarf für die Teilnehmer",
-                             required = True)
+    #effort = schema.TextLine(title = u"Zeitbedarf für die Teilnehmer",
+    #                         required = True)
 
     zertifikat = schema.Bool(title=u"Aktivieren, wenn ein Zertifikatsdruck gewünscht ist.")
 
@@ -79,6 +79,17 @@ class Kurs(Container):
             summe += obj.punkte
         return summe
 
+    def getEffort(self):
+        """
+            Liest die Aufwaende aus den Lerneinheiten
+        """
+        pfad = '/'.join(self.getPhysicalPath())
+        einheiten = ploneapi.content.find(path=pfad, portal_type='Lerneinheit')
+        summe = 0
+        for i in einheiten:
+            obj = i.getObject()
+            summe += obj.effort
+        return summe
 
     def getCourseItemsInOrder(self):
         """
