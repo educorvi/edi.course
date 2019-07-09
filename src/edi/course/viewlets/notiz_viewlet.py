@@ -17,9 +17,11 @@ class NotizViewlet(ViewletBase):
         membersfolder = portal['Members']
         pm = getToolByName(portal, 'portal_membership')
         homeurl = pm.getHomeUrl()
-        folderid = homeurl.split('/')[-1]
-        homefolder = membersfolder[folderid]
-        return homefolder
+        if homeurl:
+            folderid = homeurl.split('/')[-1]
+            homefolder = membersfolder[folderid]
+            return homefolder
+        return None
 
 
     def get_notizbuch(self, homefolder):
@@ -32,6 +34,8 @@ class NotizViewlet(ViewletBase):
 
     def get_notizen(self):
         homefolder = self.get_homefolder()
+        if not homefolder:
+            return []
         notizbuch = self.get_notizbuch(homefolder)
         normalizer = getUtility(IIDNormalizer)
         if hasattr(self.context, 'notizen'):
