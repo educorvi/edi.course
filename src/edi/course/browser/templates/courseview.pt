@@ -10,124 +10,131 @@
 <metal:main fill-slot="main">
     <tal:main-macro metal:define-macro="main">
 
+      <div class="container">
+
         <div tal:replace="structure provider:plone.abovecontenttitle" />
 
-
-        <div tal:define="button view/getStartButton" class="row" style="background-color:#e6e4e4;padding-bottom:20px;">
-          <div class="col-xs-12 col-sm-4">
-            <img style="max-width:100%;margin-top:10px;margin-bottom:10px" tal:attributes="src string:${context/absolute_url}/@@images/titleimage/preview">
+      <div class="jumbotron jumbotron-fluid pt-3 pb-3">
+        <div tal:define="button view/getStartButton" class="container">
+          <div class="row">
+          <div class="col-12 col-sm-4">
+            <img class="img-fluid" tal:attributes="src string:${context/absolute_url}/@@images/titleimage/preview">
           </div>
-          <div class="col-xs-12 col-sm-4">
-            <h1 style="margin-top:5px" class="documentFirstHeading" tal:content="context/title" />
+          <div class="col-12 col-sm-5">
+            <h1 tal:content="context/title" />
             <p class="documentDescription" tal:content="context/description" />    
           </div>
-          <div class="col-xs-12 col-sm-4">
-            <h4>Start: <span tal:content="python: view.getStartEnde()[0]"/></h4>
-            <h4>Ende: <span tal:content="python: view.getStartEnde()[1]"/></h4>
-            <a style="margin-top:5px" tal:attributes="href button/buttonurl" class="submit-widget button-field context" 
-               tal:content="button/buttonvalue"/>
-            <p> </p>
-            <img tal:condition="context/logoimage" style="max-width:80%" tal:attributes="src string:${context/absolute_url}/@@images/logoimage/mini">
+          <div class="col-12 col-sm-3">
+            <h5>Start: <span tal:content="python: view.getStartEnde()[0]"/></h5>
+            <h5>Ende: <span tal:content="python: view.getStartEnde()[1]"/></h5>
+            <p class="mt-3 mb-4"><a tal:attributes="href button/buttonurl" role="button" class="btn btn-success" 
+               tal:content="button/buttonvalue"/></p>
+            
+            <p><img tal:condition="context/logoimage" class="img-fluid" tal:attributes="src string:${context/absolute_url}/@@images/logoimage/mini"></p>
+          </div>
           </div>
         </div>
+      </div>
 
-        <div style="margin-top: 10px" class="row">
-          <div tal:define="creators view/getCreators" class="col-xs-12 col-sm-8">
-             <h2>Über diesen Kurs</h2>
+        <div class="row mt-3">
+          <div tal:define="creators view/getCreators" class="col-12 col-sm-8">
+             <h2 tal:condition="context/about">Über diesen Kurs</h2>
              <span tal:condition="context/about" tal:replace="structure context/about/output"/>
-             <h2>Lernziele</h2>
+             <h2 tal:condition="context/goals">Lernziele</h2>
              <span tal:condition="context/goals" tal:replace="structure context/goals/output"/>
-             <h2>Kursautoren</h2>
-             <div tal:repeat="creator creators" class="row">
-               <div class="col-xs-12 col-sm-4">
+             <h2 tal:condition="context/ccreators">Kursautoren</h2>
+             <div tal:condition="context/ccreators" tal:repeat="creator creators" class="row">
+               <div class="col-12 col-sm-4">
                  <img style="max-width: 90%" tal:attributes="src creator/image">
                  <p><span style="font-size:120%" tal:content="creator/fullname"/></p>
                </div>
-               <div class="col-xs-12 col-sm-8">
+               <div class="col-12 col-sm-8">
                  <p tal:content="creator/biography"/>
                </div>
-               <div class="col-xs-12 col-sm-12">
+               <div class="col-12 col-sm-12">
                  <p><a tal:attributes="href string:mailto:${creator/email}" tal:content="creator/email"/></p>
                </div>
              </div>
-             
           </div>
-          <div class="col-xs-12 col-sm-4">
-            <div class="row" style="border: 1px solid #cccccc; margin-bottom:10px"><!--Block-->
-            <div class="col-xs-12 col-sm-12">
-            <h2>Kursdaten</h2>
-            <div style="margin-bottom:10px" class="row">
-              <div class="col-xs-6 col-sm-6">
-                  <strong>Dauer:</strong>
+
+          <div class="col-12 col-sm-4">
+            <div class="card" tal:define="zertifikat view/getZertifikat">
+              <div class="card-header">
+                <h4>Kursdaten</h4>
               </div>
-              <div class="col-xs-6 col-sm-6">
-                  <span tal:content = "context/length"/>
-              </div>
-            </div>
-            <div style="margin-bottom:10px" class="row">
-              <div class="col-xs-6 col-sm-6">
-                  <strong>Zeitbedarf:</strong>
-              </div>
-              <div class="col-xs-6 col-sm-6">
-                  <span tal:content = "view/getSumAufwand"/> Stunden
-              </div>
-            </div>
-            <div style="margin-bottom:10px" class="row">
-              <div class="col-xs-6 col-sm-6">
-                  <strong>Institution:</strong>
-              </div>
-              <div class="col-xs-6 col-sm-6">
-                  <a target="_blank" tal:attributes="href context/url" tal:content="context/institution"/>
-              </div>
+
+                  <div class="row ml-1 mt-3">
+                    <div class="col-6">
+                      <p class="text-muted">Dauer:</p>
+                    </div>
+                    <div class="col-6">
+                      <p tal:content = "context/length"/>
+                    </div>
+                  </div>
+
+                  <div class="row ml-1">
+                    <div class="col-6">
+                      <p class="text-muted">Zeitbedarf:</p>
+                    </div>
+                    <div class="col-6">
+                      <p><span tal:content = "view/getSumAufwand"/> Stunden</p>
+                    </div>
+                  </div>
+
+                  <div class="row ml-1">
+                    <div class="col-6">
+                      <p class="text-muted">Institution:</p>
+                    </div>
+                    <div class="col-6">
+                      <p><span tal:content="context/institution"/></p>
+                    </div>
+                  </div>
+
+                  <div class="row ml-1">
+                    <div class="col-6">
+                      <p class="text-muted">Zertifikatskurs:</p>
+                    </div>
+                    <div class="col-6">
+                      <p>ja</p>
+                    </div>
+                  </div>
+
+                  <div class="row ml-1">
+                    <div class="col-6">
+                      <p class="text-muted">Erreichbare Punktzahl:</p>
+                    </div>
+                    <div class="col-6">
+                      <p tal:content="zertifikat/max"/>
+                    </div>
+                  </div>
+
+                  <div class="row ml-1">
+                    <div class="col-6">
+                      <p class="text-muted">Notwendige Punkte</p>
+                    </div>
+                    <div class="col-6">
+                      <p tal:content="zertifikat/quorum"/>
+                    </div>
+                  </div>
+
             </div>
 
-            <div tal:define="zertifikat view/getZertifikat" tal:condition="zertifikat/cert">
-            <hr>
-            <div style="margin-bottom:10px" class="row">
-              <div class="col-xs-8 col-sm-8">
-                  <strong>Zertifikatskurs:</strong>
+            <div class="card mt-3" tal:define="lerneinheiten view/getLerneinheiten" tal:condition="lerneinheiten">
+              <div class="card-header">
+                <h4>Lerneinheiten</h4>
               </div>
-              <div class="col-xs-4 col-sm-4">
-                  <strong>ja</strong>
-              </div>
-            </div>
-            <div style="margin-bottom:10px" class="row">
-              <div class="col-xs-8 col-sm-8">
-                  <strong>Erreichbare Punkte:</strong>
-              </div>
-              <div class="col-xs-4 col-sm-4">
-                  <strong tal:content="zertifikat/max"/>
-              </div>
-            </div>
-            <div style="margin-bottom:10px" class="row">
-              <div class="col-xs-8 col-sm-8">
-                  <strong>Notwendige Punkte:</strong>
-              </div>
-              <div class="col-xs-4 col-sm-4">
-                  <strong tal:content="zertifikat/quorum"/>
-              </div>
-            </div>
-            </div>
 
-            </div>
-            </div><!--Block Ende-->
-
-            <div class="row" style="border: 1px solid #cccccc;margin-bottom:10px"><!--Block-->
-            <div class="col-xs-12 col-sm-12">
-            <h2>Lerneinheiten</h2>
-            <div style="margin-bottom:10px" tal:define="lerneinheiten view/getLerneinheiten" class="row">
-              <div tal:condition="view/checkStudentData" class="col-xs-12 col-sm-12">
+              <div class="ml-1 mt-3 row">
+                <div tal:condition="view/checkStudentData" class="col-12 col-sm-12">
                   <p tal:repeat="einheit lerneinheiten">
                     <a tal:attributes="href einheit/url" tal:content="einheit/title"/>
                   </p>
-              </div>
-              <div tal:condition="not:view/checkStudentData" class="col-xs-12 col-sm-12">
+                </div>
+              <div tal:condition="not:view/checkStudentData" class="col-12 col-sm-12">
                   <p tal:repeat="einheit lerneinheiten" tal:content="einheit/title">
                   </p>
               </div>
             </div>
-            </div>
-            </div><!--Block Ende-->
 
           </div>
         </div>
@@ -138,6 +145,8 @@
         <div tal:replace="structure provider:plone.abovecontentbody" />
 
         <div tal:replace="structure provider:plone.belowcontentbody" />
+
+    </div>
 
     </tal:main-macro>
 </metal:main>

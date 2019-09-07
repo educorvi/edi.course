@@ -59,19 +59,20 @@ class CourseView(BrowserView):
 
     def getCreators(self):
         creators = []
-        for i in self.context.ccreators:
-            creator = {}
-            author = ploneapi.user.get(userid = i)
-            if author:
-                creator['fullname'] = author.getProperty('fullname')
-                creator['email'] = author.getProperty('email')
-                creator['biography'] = ''
-                biography = author.getProperty('description')
-                if biography:
-                    creator['biography'] = biography
-                pm = ploneapi.portal.get_tool(name='portal_membership')
-                creator['image'] = pm.getPersonalPortrait(id=i).absolute_url()
-                creators.append(creator)
+        if self.context.ccreators:
+            for i in self.context.ccreators:
+                creator = {}
+                author = ploneapi.user.get(userid = i)
+                if author:
+                    creator['fullname'] = author.getProperty('fullname')
+                    creator['email'] = author.getProperty('email')
+                    creator['biography'] = ''
+                    biography = author.getProperty('description')
+                    if biography:
+                        creator['biography'] = biography
+                    pm = ploneapi.portal.get_tool(name='portal_membership')
+                    creator['image'] = pm.getPersonalPortrait(id=i).absolute_url()
+                    creators.append(creator)
         return creators
 
     def getLerneinheiten(self):

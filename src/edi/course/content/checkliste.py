@@ -8,6 +8,8 @@ from collective.z3cform.datagridfield import DictRow
 from zope import schema
 from zope.interface import implementer
 from zope.schema.vocabulary import SimpleVocabulary
+from zope.interface import Invalid
+from zope.interface import invariant
 
 values = [u'Keine', u'Zeile', u'Text']
 input_vocabulary = SimpleVocabulary.fromValues(values)
@@ -54,6 +56,15 @@ class ICheckliste(model.Schema):
         description=u'Gib hier die Antwortoptionen und die entsprechende Punktzahl ein. Die Punkte werden ignoriert wenn die Auswertung der\
                       Checkliste deaktiviert wurde.',
         value_type = DictRow(title=u'Antwortoptionen', schema=IOptionen))
+
+    table = schema.Bool(title=u"Spalten mit Checkbox oder Radio-Button",
+                        description=u"Bei einer Option erfolgt die Anzeige als Checkbox. Bei 2-4 Optionen besteht die Möglichkeit,\
+                                      die Auswahl als Radio-Button anzuzeigen.")
+
+    @invariant
+    def table_invariant(data):
+        if data.table and len(data.optionen) > 4:
+            raise Invalid(u'Die Auswahl Spalten mit Checkbox oder Radio-Button darf nur bis maximal 4 Optionen aktiviert werden.')
 
 
 @implementer(ICheckliste)

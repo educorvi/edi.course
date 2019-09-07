@@ -1,5 +1,5 @@
-<div class="col-xs-12 col-sm-12" style="background-color:#e6e4e4;height:40px;margin:20px 0px;" tal:define="courseWay view/getCourseWay">
-    <div class="row" style="margin-top:10px">
+<div class="jumbotron mt-2 mb-2 pt-1 pb-1" tal:define="courseWay view/getCourseWay">
+    <div class="row mt-1">
       <div class="col-xs-4 col-sm-2 col-md-2">
         <a tal:condition="python:courseWay.get('vorgaenger')" tal:attributes="href python:courseWay.get('vorgaenger')[1];
                           title python:courseWay.get('vorgaenger')[0]"><span class="glyphicon glyphicon-chevron-left"/>zurück</a>

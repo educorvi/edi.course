@@ -4,88 +4,114 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       i18n:domain="edi.course"
       metal:use-macro="context/main_template/macros/master">
-<body>
-<metal:main fill-slot="main">
-    <tal:main-macro metal:define-macro="main" tal:define="data view/get_data">
+  <body>
+    <metal:main fill-slot="main">
+      <tal:main-macro metal:define-macro="main" tal:define="data view/get_data">
 
-    <div class="row">
-      <div class="col-xs-12 col-sm-12">
-        <div tal:replace="structure provider:plone.abovecontenttitle" />
-      </div>
-    </div>
+        <div class="container">
 
+          <div class="row">
+            <div class="col-12 col-sm-12">
+              <div tal:replace="structure provider:plone.abovecontenttitle" />
+            </div>
+          </div>
 
-    <div class="row">
-    <div class="col-xs-12 col-sm-12">
+          <div class="row">
+            <div class="col-12 col-sm-12">
+              <h2 tal:content="context/title"/>
+              <p tal:condition="context/description" class="documentDescription" tal:content="context/description"/>
+              <p tal:condition="context/text" tal:replace="structure context/text/output"/>
+            </div>
+          </div>
 
-    <h2 tal:content="context/title"/>
-    <p tal:condition="context/description" class="documentDescription" tal:content="context/description"/>
+          <form tal:attributes="action view/form_url">
 
-    <p tal:condition="context/text" tal:replace="structure context/text/output"/>
+          <div class="row" tal:repeat="aussage view/get_aussagen">
+            <div class="col-7 col-sm-7">
+              <h2 tal:condition="python: view.get_aussagen().index(aussage) == 0 and context.table">Aussagen der Checkliste</h2>
+              <p tal:condition="python: view.get_aussagen().index(aussage) == 0 and not context.table"><strong tal:content="aussage/aussage"/></p>
+              <p tal:condition="python: view.get_aussagen().index(aussage) > 0"><strong tal:content="aussage/aussage"/></p>
+              <input tal:condition="python: aussage['fieldformat'] == 'Zeile' and not data.has_key(str(context.aussagen.index(aussage)+1000))" 
+                type="text" tal:attributes="name python:context.aussagen.index(aussage)+1000">
+              <input tal:condition="python: aussage['fieldformat'] == 'Zeile' and data.has_key(str(context.aussagen.index(aussage)+1000))"
+               type="text" tal:attributes="name python:context.aussagen.index(aussage)+1000; 
+                                           value python:data.get(str(context.aussagen.index(aussage)+1000))">
+              <textarea tal:condition="python: aussage['fieldformat'] == 'Text'" tal:attributes="name python:context.aussagen.index(aussage)+1000"
+               tal:content="python: data.get(str(context.aussagen.index(aussage)+1000))"/>
+            </div>
 
-    </div>
-    </div>
+            <div tal:condition="not: context/table" class="col-5 col-sm-5">
+              <select tal:attributes="name python:context.aussagen.index(aussage)" class="form-control">
+                <option>bitte auswählen</option>
+                <span tal:repeat="option context/optionen">
+                  <option tal:condition="python: data.get(str(context.aussagen.index(aussage))) == option['option']" 
+                    selected tal:content="option/option"/>
+                  <option tal:condition="python: data.get(str(context.aussagen.index(aussage))) != option['option']" tal:content="option/option"/>
+                </span>
+              </select>
+            </div>
 
-    <div class="row">
-      <div class="col-xs-12 col-sm-12">
-        <h3>Checkliste</h3>
-      </div>
-    </div>
+            <div tal:condition="context/table" class="col-5 col-sm-5">
+              <div class="row">
+              <div tal:condition="python: view.get_aussagen().index(aussage) == 0" tal:repeat="option view/get_optionen" 
+                tal:attributes="class view/get_class">
+                <h4 class="align-text-bottom" tal:content="option"/>
+              </div>
+              <div tal:condition="python: view.get_aussagen().index(aussage) > 0" tal:repeat="option context/optionen" 
+                tal:attributes="class view/get_class">
+                <div class="form-check">
+                  <input tal:condition="python: data.get(str(context.aussagen.index(aussage))) == option['option']" checked="checked" 
+                    class="mx-auto form-check-input position-static" type="radio" tal:attributes="type view/get_bclass;
+                                                                                                  name python:context.aussagen.index(aussage);
+                                                                                                  id option/option;
+                                                                                                  value option/option;
+                                                                                                  aria-label option/option">
+                  <input tal:condition="python: data.get(str(context.aussagen.index(aussage))) != option['option']"
+                    class="mx-auto form-check-input position-static" type="radio" tal:attributes="type view/get_bclass;
+                                                                                                  name python:context.aussagen.index(aussage);
+                                                                                                  id option/option;
+                                                                                                  value option/option;
+                                                                                                  aria-label option/option">
+                </div>
+              </div>
+              </div>
+            </div>
 
-    <form tal:attributes="action view/form_url">
+            <div class="col-xs-12 col-sm-12">
+              <hr>
+            </div>
+          </div>
 
-    <div class="row" tal:repeat="aussage context/aussagen">
-      <div class="col-xs-8 col-sm-8">
-        <p><strong tal:content="aussage/aussage"/></p>
-        <input tal:condition="python: aussage['fieldformat'] == 'Zeile' and not data.has_key(str(context.aussagen.index(aussage)+1000))" type="text"
-               tal:attributes="name python:context.aussagen.index(aussage)+1000">
-        <input tal:condition="python: aussage['fieldformat'] == 'Zeile' and data.has_key(str(context.aussagen.index(aussage)+1000))" type="text" 
-               tal:attributes="name python:context.aussagen.index(aussage)+1000; value python:data.get(str(context.aussagen.index(aussage)+1000))">
-        <textarea tal:condition="python: aussage['fieldformat'] == 'Text'" tal:attributes="name python:context.aussagen.index(aussage)+1000"
-                  tal:content="python: data.get(str(context.aussagen.index(aussage)+1000))"/>
-      </div>
-      <div class="col-xs-4 col-sm-4">
-        <select tal:attributes="name python:context.aussagen.index(aussage)" class="form-control">
-          <option>bitte auswählen</option>
-          <span tal:repeat="option context/optionen">
-          <option tal:condition="python: data.get(str(context.aussagen.index(aussage))) == option['option']" selected tal:content="option/option"/>
-          <option tal:condition="python: data.get(str(context.aussagen.index(aussage))) != option['option']" tal:content="option/option"/>
-          </span>
-        </select>
-      </div>
-      <div class="col-xs-12 col-sm-12">
-        <hr>
-      </div>
-    </div>
+          <div tal:condition="python:data.get('summe')" class="row">
+            <div class="col-xs-9 col-sm-9">
+              <p class="documentDescription">Summe</p>
+            </div>
+            <div class="col-xs-3 col-sm-3">
+              <p class="documentDescription" tal:content="data/summe"/>
+            </div>
+            <div class="col-xs-12 col-sm-12">
+              <hr>
+            </div>
+          </div>
 
-    <div tal:condition="python:data.get('summe')" class="row">
-      <div class="col-xs-9 col-sm-9">
-         <p class="documentDescription">Summe</p>
-      </div>
-      <div class="col-xs-3 col-sm-3">
-         <p class="documentDescription" tal:content="data/summe"/>
-      </div>
-      <div class="col-xs-12 col-sm-12">
-        <hr>
-      </div>
-    </div>
+          <div class="row">
+            <div class="col-xs-12 col-sm-12">
+              <button tal:condition="not:data" type="submit" class="btn btn-primary">Speichern</button>
+              <button tal:condition="data" type="submit" class="btn btn-primary">Aktualisieren</button>
+            </div>
+          </div>
 
-    <div class="row">
-      <div class="col-xs-12 col-sm-12">
-        <button tal:condition="not:data" type="submit" class="btn btn-primary">Speichern</button>
-        <button tal:condition="data" type="submit" class="btn btn-primary">Aktualisieren</button>
-      </div>
-    </div>
+          </form>
 
-    </form>
+          <div class="row">
+            <div class="col-xs-12 col-sm-12">
+              <div tal:replace="structure provider:plone.belowcontentbody" />
+            </div>
+          </div>
+     
+        </div>
 
-    <div class="row">
-      <div class="col-xs-12 col-sm-12">
-        <div tal:replace="structure provider:plone.belowcontentbody" />
-      </div>
-    </div>
-
-    </tal:main-macro>
-</metal:main>
-<body>
+      </tal:main-macro>
+    </metal:main>
+  </body>
 </html>

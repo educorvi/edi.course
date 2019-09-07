@@ -14,6 +14,31 @@ class ChecklisteView(BrowserView):
     # the configure.zcml registration of this view.
     # template = ViewPageTemplateFile('checkliste_view.pt')
 
+    def get_aussagen(self):
+        if self.context.table:
+            default = [{u'aussage':u'Aussagen', u'fieldformat':u'keine'}]
+            return default + self.context.aussagen
+        return self.context.aussagen
+
+    def get_optionen(self):
+        optionen = []
+        for i in self.context.optionen:
+            optionen.append(i.get('option'))
+        return optionen
+
+    def get_class(self):
+        if len(self.context.optionen) <= 2:
+            return 'col-6'
+        elif len(self.context.optionen) == 3:
+            return 'col-4'
+        else:
+            return 'col-3'
+
+    def get_bclass(self):
+        if len(self.context.optionen) == 1:
+            return 'checkbox'
+        return 'radio'
+
     def get_data(self):
         data = {}
         kurs = getCourse(self.context)

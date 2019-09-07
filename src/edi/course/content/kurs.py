@@ -44,10 +44,10 @@ class IKurs(model.Schema):
                      description = u"Bitte hier nur den Anmeldenamen des Autors eintragen. Die Daten werden\
                        aus dem individuellen Benutzerprofil des Kursautors gelesen.",
                      value_type = schema.TextLine(),
-                     required = True)
+                     required = False)
 
     length = schema.TextLine(title = u"Dauer des Kurses",
-                             required = True)
+                             required = False)
 
     #effort = schema.TextLine(title = u"Zeitbedarf für die Teilnehmer",
     #                         required = True)
