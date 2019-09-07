@@ -122,7 +122,6 @@ def updateVisitedData(kurs, studentid, uid, retdict, finished):
         tests[uid] = retdict
         studentdata['tests'] = tests
     studentdata['lastchange'] = datetime.now()
-    print studentdata
     update = uc.update_one({"_id": objid},{"$set": studentdata}, upsert=False)
     return update
 

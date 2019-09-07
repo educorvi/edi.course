@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 #Import der benoetigten Bibliotheken
-from StringIO import StringIO
 from datetime import datetime
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
