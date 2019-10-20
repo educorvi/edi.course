@@ -102,13 +102,15 @@ class UnitView(BrowserView):
     """Viewklasse fuer die Lerneinheit"""
 
     def folderContents(self):
-        glyphclasses = {'Document':'',
+        glyphclasses = {'Document':'glyphicon glyphicon-bookmark',
                         'Aufgabe':'glyphicon glyphicon-check',
+                        'Checkliste':'glyphicon glyphicon-ok',
                         'Audiovideo':'glyphicon glyphicon-play-circle'}
 
-        fontsizes = {'Document':'font-size:130%;',
-                     'Aufgabe':'font-size:100%;',
-                     'Audiovideo':'font-size:130%;'}
+        fontsizes = {'Document':'font-size:110%;',
+                     'Aufgabe':'font-size:110%;',
+                     'Checkliste':'font-size:110%',
+                     'Audiovideo':'font-size:110%;'}
 
         showtypes = ['Document', 'Aufgabe', 'Audiovideo', 'Checkliste']
         retlist = []
@@ -173,7 +175,7 @@ class AbschlussView(BrowserView):
             fullname = user.getProperty('fullname')
             if not fullname:
                 fullname = user.getId()
-            hash_object = hashlib.md5(fullname)
+            hash_object = hashlib.md5(fullname.encode('utf-8'))
             urlid = hash_object.hexdigest()
             buttonurl = self.context.absolute_url() + '/@@printcert/?urlid=%s' %urlid
             button = True
@@ -199,7 +201,7 @@ class PrintCertificate(BrowserView):
         fullname = user.getProperty('fullname')
         if not fullname:
             fullname = user.getId()
-        hash_object = hashlib.md5(fullname)
+        hash_object = hashlib.md5(fullname.encode('utf-8'))
         urlid = hash_object.hexdigest()
 
         gotid = self.request.get('urlid')
@@ -227,7 +229,8 @@ class PrintCertificate(BrowserView):
 
         kursid = self.context.aq_parent.id
         data['print_certid'] = self.context.print_certid
-        data['certid'] = hashlib.md5(u'%s %s' %(kursid, user.getProperty('fullname'))).hexdigest()
+        certid = u'%s %s' %(kursid, user.getProperty('fullname'))
+        data['certid'] = hashlib.md5(certid.encode('utf-8')).hexdigest()
         data['certid_x'] = self.context.certid_x
         data['certid_y'] = self.context.certid_y
         data['certid_fontsize'] = self.context.certid_fontsize
@@ -300,6 +303,13 @@ class AudioVideoView(BrowserView):
         if self.context.embed:
             retcode = self.context.embed
         return retcode
+
+    def getPoster(self):
+        image = {}
+        if self.context.poster:
+            image['src'] = "%s/@@images/poster" % self.context.absolute_url()
+            image['title'] = self.context.poster.filename
+        return image
             
 
 class ResetView(BrowserView):

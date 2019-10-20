@@ -98,7 +98,7 @@ def updateVisitedData(kurs, studentid, uid, retdict, finished):
     if finished:
         coursedata = getCourseData(kurs, studentid)
         objid = coursedata.get('_id')
-        if not coursedata.has_key('finished'):
+        if not 'finished' in coursedata:
             coursedata['finished'] = datetime.now()
             courseupdate = cc.update_one({"_id": objid},{"$set": coursedata}, upsert=False)
         

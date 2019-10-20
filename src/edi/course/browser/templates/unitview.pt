@@ -12,14 +12,16 @@
 
         <div tal:replace="structure provider:plone.abovecontenttitle" />
 
-        <div style="margin-top:10px" class="row">
-           <div class="col-xs-12 col-sm-10">
+        <div class="row mt-3">
+           <div class="col-12 col-sm-10">
              <h1 class="documentFirstHeading" tal:content="context/title" />
              <p class="documentDescription" tal:content="context/description" />
            </div>
-           <div style="border: 1px solid #cccccc;margin-bottom:10px;" class="col-xs-x12 col-sm-2">
-             <h4>Zeitbedarf</h4>
-             <p><span tal:content="context/effort"/> Stunden</p>
+           <div class="card">
+             <div class="card-body">
+               <h4>Zeitbedarf</h4>
+               <p><span tal:content="context/effort"/> Stunden</p>
+             </div>
            </div>
         </div>
         <div class="row">

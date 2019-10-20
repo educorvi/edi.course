@@ -22,10 +22,11 @@
 
         <span tal:condition="context/vortext" tal:replace="structure context/vortext/output"/>
 
-        <div tal:define="datei view/getMedia;filetype python:datei.get('contentType')" tal:condition="datei" class="row">
+        <div tal:define="datei view/getMedia;filetype python:datei.get('contentType');poster view/getPoster" tal:condition="datei" class="row">
           <div class="col-xs-12 col-sm-12" tal:condition="python: filetype == 'video/mp4'">
-            <div class="embed-responsive embed-responsive-4by3">
-              <video width="100%" height="auto" playsinline controls tal:attributes="src datei/url" type="video/mp4">
+            <div class="embed-responsive embed-responsive-16by9">
+              <video class="embed-responsive-item" controls tal:attributes="poster poster/src">
+                <source tal:attributes="src datei/url;" type="video/mp4">
                 Dein Browser kann dieses Video nicht wiedergeben.<br/>
                 Du kannst die Datei unter <a href="#" tal:attributes="href datei/url" tal:content="datei/filename"></a> herunterladen.
               </video>

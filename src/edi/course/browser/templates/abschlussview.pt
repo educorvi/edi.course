@@ -42,7 +42,7 @@
 
           <h3>Testergebnisse</h3>
 
-          <table class="listing">
+          <table class="table table-striped table-responsive-sm">
             <thead>
               <th>Titel</th>
               <th>Ergebnis</th>
@@ -74,8 +74,12 @@
               <p><a tal:attributes="href testdata/repeat" class="submit-widget button-field context">Kurs wiederholen</a></p>
           </div>
 
-          <p><a tal:condition="python: testdata.get('button') and not testdata.get('fail')" tal:attributes="href testdata/buttonurl">
-             <img tal:attributes="src string:${context/absolute_url}/@@images/image/mini"><br/> Zertifikat drucken</a></p>
+          <a tal:condition="python: testdata.get('button') and not testdata.get('fail')" tal:attributes="href testdata/buttonurl">
+          <figure class="figure">
+          <img class="img-fluid shadow p-3 mb-2 bg-white rounded" tal:attributes="src string:${context/absolute_url}/@@images/image/preview">
+          <figcaption class="figure-caption">Zertifikat drucken</figcaption>
+          </figure>
+          </a>
 
           <div tal:replace="structure provider:plone.belowcontentbody" />
 
