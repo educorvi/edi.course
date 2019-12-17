@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from urllib.parse import urlparse
+from urlparse import urlparse
 from plone import api as ploneapi
 from edi.course import _
 from Products.Five.browser import BrowserView
