@@ -2,7 +2,7 @@
 edi.course
 ==========
 
-Mit diesem Softwareprodukt für das CMS Plone können Kleine private Online-Kurse in das Intranet das Wissens-Mangement-System oder die Website
+Mit diesem Softwareprodukt für das CMS Plone können Kleine Private Online-Kurse (SPOCs) in das Intranet, in Wissensportale oder die Website
 integriert werden. 
 
 Features
