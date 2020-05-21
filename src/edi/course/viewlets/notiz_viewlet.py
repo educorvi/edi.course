@@ -13,16 +13,9 @@ class NotizViewlet(ViewletBase):
         return self.context.absolute_url() + '/validate-notizen'
 
     def get_homefolder(self):
-        portal = ploneapi.portal.get()
-        membersfolder = portal['Members']
-        pm = getToolByName(portal, 'portal_membership')
-        homeurl = pm.getHomeUrl()
-        if homeurl:
-            folderid = homeurl.split('/')[-1]
-            homefolder = membersfolder[folderid]
-            return homefolder
-        return None
-
+        pm = ploneapi.portal.get_tool(name='portal_membership')
+        homefolder = pm.getHomeFolder()
+        return homefolder
 
     def get_notizbuch(self, homefolder):
         kurs = getCourse(self.context)
@@ -31,19 +24,18 @@ class NotizViewlet(ViewletBase):
                 return homefolder[kurs.id]
         return ''
 
-
     def get_notizen(self):
         homefolder = self.get_homefolder()
         if not homefolder:
             return []
         notizbuch = self.get_notizbuch(homefolder)
         normalizer = getUtility(IIDNormalizer)
-        if hasattr(self.context, 'notizen'):
-            if self.context.notizen:
+        if hasattr(self.context.aq_inner, 'notizen'):
+            if self.context.aq_inner.notizen:
                 notizen = []
                 for i in self.context.notizen:
                     notizid = normalizer.normalize(i['title'])
-                    if not i.has_key('fieldformat'):
+                    if not 'fieldformat' in i:
                         i['fieldformat'] = u'Text'
                     fieldformat = i['fieldformat']
                     if fieldformat != u'Zeile':
