@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import transaction
 from Products.Five.browser import BrowserView
 from zope.component import getUtility
 from plone.i18n.normalizer.interfaces import IIDNormalizer
@@ -10,12 +9,8 @@ from edi.course.persistance import getCourse
 class ValidateNotizen(BrowserView):
 
     def get_homefolder(self):
-        portal = ploneapi.portal.get()
-        membersfolder = portal['Members']
-        pm = getToolByName(portal, 'portal_membership')
-        homeurl = pm.getHomeUrl()
-        folderid = homeurl.split('/')[-1]
-        homefolder = membersfolder[folderid]
+        pm = ploneapi.portal.get_tool(name='portal_membership')
+        homefolder = pm.getHomeFolder()
         return homefolder
 
 
@@ -27,7 +22,6 @@ class ValidateNotizen(BrowserView):
                           id = kurs.id,
                           title = kurs.title,
                           container=homefolder)
-            transaction.commit()
         else:
             notizbuch = homefolder[kurs.id]
         return notizbuch
@@ -43,7 +37,6 @@ class ValidateNotizen(BrowserView):
                 notiz = notiz['data'],
                 link = notiz['url'],
                 container = notizbuch)
-            transaction.commit()
         else:
             notizbuch[notiz['id']].notiz = notiz['data']
 
@@ -52,12 +45,16 @@ class ValidateNotizen(BrowserView):
         normalizer = getUtility(IIDNormalizer)
         homefolder = self.get_homefolder() 
         if self.request.form:
-            if hasattr(self.context, 'notizen'):
-                if self.context.notizen:
+            if hasattr(self.context.aq_inner, 'notizen'):
+                if self.context.aq_inner.notizen:
                     for notiz in self.context.notizen:
-                        notiz['data'] = self.request.get(normalizer.normalize(notiz['title']))
-                        notiz['id'] = normalizer.normalize(notiz['title'])
+                        notizid = normalizer.normalize(notiz['title'])
+                        notiz['data'] = self.request.get(notizid)
+                        notiz['id'] = notizid
                         notiz['url'] = self.context.absolute_url()
                         if notiz['data']:
                             notizbuch = self.get_notizbuch(homefolder)
-                            notiz = self.set_notiz(notizbuch, notiz) 
+                            notiz = self.set_notiz(notizbuch, notiz)
+                            message = u"Die Notiz wurde erfolgreich gespeichert."
+                            ploneapi.portal.show_message(message = message, request = self.request, type = "info")
+        return self.request.response.redirect(self.context.absolute_url())
