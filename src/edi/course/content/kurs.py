@@ -3,6 +3,7 @@ from plone.app.textfield import RichText
 from plone.autoform import directives
 from plone.dexterity.content import Container
 from plone.namedfile.field import NamedBlobImage
+from plone.namedfile.field import NamedImage
 from plone.supermodel import model
 from plone.supermodel.directives import fieldset
 # from z3c.form.browser.radio import RadioFieldWidget
@@ -12,6 +13,13 @@ from plone.app.layout.navigation.navtree import buildFolderTree
 from plone.app.layout.navigation.navtree import NavtreeStrategyBase
 from Products.CMFPlone.browser.navtree import SitemapNavtreeStrategy, DefaultNavtreeStrategy
 from plone import api as ploneapi
+from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
+
+coursetypes = SimpleVocabulary((
+    SimpleTerm(value=u"skill", token=u"skill", title=u"Skill-Kurs"),
+    SimpleTerm(value=u"spoc", token=u"spoc", title=u"Spoc-Kurs")
+    ))
 
 # from edi.course import _
 
@@ -51,6 +59,11 @@ class IKurs(model.Schema):
 
     #effort = schema.TextLine(title = u"Zeitbedarf für die Teilnehmer",
     #                         required = True)
+
+    coursetype = schema.Choice(title = u"Art des Kurses",
+                     description = u"Bitte hier eine Kursart auswählen. Die Wahl hat Einfluss auf die Startseite und den Kursabschluss.",
+                     vocabulary = coursetypes,
+                     default = 'spoc')
 
     zertifikat = schema.Bool(title=u"Aktivieren, wenn ein Zertifikatsdruck gewünscht ist.")
 
@@ -99,7 +112,8 @@ class Kurs(Container):
             @return: List of catalog brains
         """
         root = self
-        query = {'portal_type':['Kurs', 'Kursabschluss', 'Lerneinheit', 'Document', 'Aufgabe', 'Audiovideo', 'Checkliste']}
+        possible_types = ['Kurs', 'Kursabschluss', 'Lerneinheit', 'Document', 'Aufgabe', 'Audiovideo', 'Checkliste', 'Skill']
+        query = {'portal_type':possible_types}
 
         # Navigation tree base portal_catalog query parameters
         applied_query=  {

@@ -14,11 +14,11 @@
 
         <div tal:replace="structure provider:plone.abovecontenttitle" />
 
-      <div class="jumbotron jumbotron-fluid pt-3 pb-3">
+      <div class="jumbotron jumbotron-fluid pt-3 pb-3 rounded">
         <div tal:define="button view/getStartButton" class="container">
           <div class="row">
           <div class="col-12 col-sm-4">
-            <img class="img-fluid" tal:attributes="src string:${context/absolute_url}/@@images/titleimage/preview">
+		  <img class="img-fluid" tal:attributes="src string:${context/absolute_url}/@@images/titleimage/large">
           </div>
           <div class="col-12 col-sm-5">
             <h1 tal:content="context/title" />
@@ -58,64 +58,66 @@
           </div>
 
           <div class="col-12 col-sm-4">
+
             <div class="card" tal:define="zertifikat view/getZertifikat">
               <div class="card-header">
                 <h4>Kursdaten</h4>
               </div>
 
-                  <div class="row ml-1 mt-3">
-                    <div class="col-6">
-                      <p class="text-muted">Dauer:</p>
-                    </div>
-                    <div class="col-6">
-                      <p tal:content = "context/length"/>
-                    </div>
-                  </div>
+              <div class="row ml-1 mt-3">
+                <div class="col-6">
+                  <p class="text-muted">Dauer:</p>
+                </div>
+                <div class="col-6">
+                  <p tal:content = "context/length"/>
+                </div>
+              </div>
 
-                  <div class="row ml-1">
-                    <div class="col-6">
-                      <p class="text-muted">Zeitbedarf:</p>
-                    </div>
-                    <div class="col-6">
-                      <p><span tal:content = "view/getSumAufwand"/> Stunden</p>
-                    </div>
-                  </div>
+              <div tal:condition="python:context.coursetype=='spoc'" class="row ml-1">
+                <div class="col-6">
+                  <p class="text-muted">Zeitbedarf:</p>
+                </div>
+                <div class="col-6">
+                  <p><span tal:content = "view/getSumAufwand"/> Stunden</p>
+                </div>
+              </div>
 
-                  <div class="row ml-1">
-                    <div class="col-6">
-                      <p class="text-muted">Institution:</p>
-                    </div>
-                    <div class="col-6">
-                      <p><span tal:content="context/institution"/></p>
-                    </div>
-                  </div>
+              <div class="row ml-1">
+                <div class="col-6">
+                  <p class="text-muted">Institution:</p>
+                </div>
+                <div class="col-6">
+                  <p><span tal:content="context/institution"/></p>
+                </div>
+              </div>
 
-                  <div class="row ml-1">
-                    <div class="col-6">
-                      <p class="text-muted">Zertifikatskurs:</p>
-                    </div>
-                    <div class="col-6">
-                      <p>ja</p>
-                    </div>
-                  </div>
+              <div class="row ml-1">
+                <div class="col-6">
+                  <p class="text-muted">Zertifikatskurs:</p>
+                </div>
+                <div class="col-6">
+                  <p tal:condition="zertifikat/cert">ja</p>
+                  <p tal:condition="not: zertifikat/cert">nein</p>
+                </div>
+              </div>
 
-                  <div class="row ml-1">
-                    <div class="col-6">
-                      <p class="text-muted">Erreichbare Punktzahl:</p>
-                    </div>
-                    <div class="col-6">
-                      <p tal:content="zertifikat/max"/>
-                    </div>
-                  </div>
+              <div tal:condition="python: context.coursetype == 'spoc'" class="row ml-1">
+                <div class="col-6">
+                  <p class="text-muted">Erreichbare Punktzahl:</p>
+                </div>
+                <div class="col-6">
+                  <p tal:content="zertifikat/max"/>
+                </div>
+              </div>
 
-                  <div class="row ml-1">
-                    <div class="col-6">
-                      <p class="text-muted">Notwendige Punkte</p>
-                    </div>
-                    <div class="col-6">
-                      <p tal:content="zertifikat/quorum"/>
-                    </div>
-                  </div>
+              <div tal:condition="python:context.coursetype=='spoc' and zertifikat.get('cert')" class="row ml-1">
+                <div class="col-6">
+                  <p class="text-muted">Notwendige Punkte</p>
+                </div>
+                <div class="col-6">
+                  <p tal:content="zertifikat/quorum"/>
+                </div>
+              </div>
 
             </div>
 
@@ -123,20 +125,36 @@
               <div class="card-header">
                 <h4>Lerneinheiten</h4>
               </div>
-
               <div class="ml-1 mt-3 row">
                 <div tal:condition="view/checkStudentData" class="col-12 col-sm-12">
                   <p tal:repeat="einheit lerneinheiten">
                     <a tal:attributes="href einheit/url" tal:content="einheit/title"/>
                   </p>
                 </div>
-              <div tal:condition="not:view/checkStudentData" class="col-12 col-sm-12">
+                <div tal:condition="not:view/checkStudentData" class="col-12 col-sm-12">
                   <p tal:repeat="einheit lerneinheiten" tal:content="einheit/title">
                   </p>
+                </div>
+              </div>
+	    </div>
+
+            <div class="card mt-3" tal:define="skills view/getSkills" tal:condition="skills">
+              <div class="card-header">
+                <h4>Skills</h4>
+              </div>
+              <div class="ml-1 mt-3 row">
+                <div tal:condition="view/checkStudentData" class="col-12 col-sm-12">
+                  <p tal:repeat="skill skills">
+                    <a tal:attributes="href skill/url" tal:content="skill/title"/>
+                  </p>
+                </div>
+                <div tal:condition="not:view/checkStudentData" class="col-12 col-sm-12">
+                  <p tal:repeat="skill skills" tal:content="skill/title">
+                  </p>
+                </div>
               </div>
             </div>
 
-          </div>
         </div>
            
     

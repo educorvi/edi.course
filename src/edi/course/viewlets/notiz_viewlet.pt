@@ -1,7 +1,10 @@
-<div class="col-12">
-    <h3 tal:condition="context/headline" tal:content="context/headline"></h3>
-    <p class="documentDescription" tal:condition="context/teasertext" tal:content="structure context/teasertext"/>
-    <form action="" tal:attributes="action view/get_action">
+<div class="container mt-5">
+  <div class="row">	
+  <div class="col-sm-1"></div>
+  <div class="col-12 col-sm-10">
+      <h3 tal:condition="context/headline" tal:content="context/headline"></h3>
+      <p class="documentDescription" tal:condition="context/teasertext" tal:content="structure context/teasertext"/>
+      <form action="" tal:attributes="action view/get_action">
         <div tal:repeat="notiz view/get_notizen" class="form-group">
             <label tal:attributes="for notiz/name" tal:content="notiz/description">Frage, Aufgabe, These</label>
             <textarea tal:condition="python:notiz.get('fieldformat')=='Text'" class="form-control" rows="2" id="" 
@@ -10,5 +13,8 @@
                       tal:attributes="id notiz/name; name notiz/name; value notiz/data">
         </div>
         <button type="submit" class="btn btn-primary">Speichern</button>
-    </form>
+      </form>
+  </div>
+  <div class="col-sm-1"></div>
+  </div>
 </div>

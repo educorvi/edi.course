@@ -29,7 +29,7 @@
 
       </div>
 
-      <div class="row" tal:define="testdata view/getTestData">
+      <div tal:condition="python:context.coursetype=='spoc' and context.zertifikat" class="row" tal:define="testdata view/getTestData">
 
         <div class="col-xs-12 col-sm-12">
 

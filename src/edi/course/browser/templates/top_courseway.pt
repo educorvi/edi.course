@@ -1,4 +1,5 @@
-<div class="jumbotron mt-2 mb-2 pt-1 pb-1" tal:define="courseWay view/getCourseWay">
+<div class="container">
+<div class="jumbotron mt-1 mb-5 pt-1 pb-1" tal:define="courseWay view/getCourseWay">
     <div class="row mt-1">
       <div class="col-xs-4 col-sm-2 col-md-2">
         <a tal:condition="python:courseWay.get('vorgaenger')" tal:attributes="href python:courseWay.get('vorgaenger')[1];
@@ -10,4 +11,5 @@
                           title python:courseWay.get('nachfolger')[0]" style="align:right;">weiter<span class="glyphicon glyphicon-chevron-right"/></a>
       </div>
     </div>
+</div>
 </div>

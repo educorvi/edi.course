@@ -113,7 +113,7 @@
       name="courseway.aboveviewlet"
       class=".viewlets.CourseWayViewlet"
       manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
-      template="templates/courseway.pt"
+      template="templates/top_courseway.pt"
       layer="edi.course.interfaces.IEdiCourseLayer"
       permission="zope2.View"
       />
@@ -122,7 +122,7 @@
       name="courseway.belowviewlet"
       class=".viewlets.CourseWayViewlet"
       manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
-      template="templates/courseway.pt"
+      template="templates/bottom_courseway.pt"
       layer="edi.course.interfaces.IEdiCourseLayer"
       permission="zope2.View"
       />

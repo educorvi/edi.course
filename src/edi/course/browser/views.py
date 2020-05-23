@@ -31,7 +31,6 @@ class CourseView(BrowserView):
 
     def getStartButton(self):
         """Setzt den Startbutton je nach Lernfortschritt"""
-        #import pdb;pdb.set_trace()
         button = {}
         courseitems = self.context.getCourseItemsInOrder()
         if courseitems:
@@ -76,7 +75,7 @@ class CourseView(BrowserView):
         return creators
 
     def getLerneinheiten(self):
-        """liest die Lerneinheiten aus dem aktuelln Kurs zur
+        """liest die Lerneinheiten aus dem aktuellen Kurs zur
            Abbildung eines Inhaltsverzeichnisses
         """
         einheiten = []
@@ -86,6 +85,18 @@ class CourseView(BrowserView):
                            'url':i.getURL()}
                 einheiten.append(einheit)
         return einheiten
+
+    def getSkills(self):
+        """liest die Skills aus dem aktuellen Kurs zur
+           Abbildung eines Inhaltsverzeichnisses
+        """
+        skills = []
+        for i in self.context.getFolderContents():
+            if i.portal_type == "Skill":
+                skill = {'title':i.Title,
+                         'url':i.getURL()}
+                skills.append(skill)
+        return skills
 
     def getZertifikat(self):
         cert = {}
