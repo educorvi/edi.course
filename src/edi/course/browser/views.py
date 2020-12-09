@@ -61,7 +61,7 @@ class CourseView(BrowserView):
         if self.context.ccreators:
             for i in self.context.ccreators:
                 creator = {}
-                author = ploneapi.user.get(userid = i)
+                author = ploneapi.user.get(username = i)
                 if author:
                     creator['fullname'] = author.getProperty('fullname')
                     creator['email'] = author.getProperty('email')
@@ -69,8 +69,9 @@ class CourseView(BrowserView):
                     biography = author.getProperty('description')
                     if biography:
                         creator['biography'] = biography
+                    userid = author.getId()
                     pm = ploneapi.portal.get_tool(name='portal_membership')
-                    creator['image'] = pm.getPersonalPortrait(id=i).absolute_url()
+                    creator['image'] = pm.getPersonalPortrait(id=userid).absolute_url()
                     creators.append(creator)
         return creators
 

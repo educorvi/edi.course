@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<registry>
-<!-- -*- extra stuff goes here -*- -->
-
+<registry
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="edi.course">
+    <records interface="edi.course.browser.settings.IEdiCourseSettings" prefix="edi.course.browser.settings.IEdiCourseSettings"/>
 </registry>

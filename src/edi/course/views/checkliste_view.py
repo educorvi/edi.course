@@ -4,7 +4,7 @@ from edi.course import _
 from Products.Five.browser import BrowserView
 from plone import api as ploneapi
 from edi.course.persistance import getCourse
-from edi.course.persistance import mongoclient
+from edi.course.mongoutil import get_mongo_client
 
 # from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
@@ -42,6 +42,7 @@ class ChecklisteView(BrowserView):
     def get_data(self):
         data = {}
         kurs = getCourse(self.context)
+        mongoclient = get_mongo_client()
         cdb = mongoclient[kurs.id]
         clc = cdb.checklist_collection
         studentid = ploneapi.user.get_current().getId()

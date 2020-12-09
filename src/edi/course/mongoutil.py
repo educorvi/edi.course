@@ -1,27 +1,21 @@
 import pymongo
-from zope.interface import Interface
+import urllib.parse
 from App.config import getConfiguration
+from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
+from plone.memoize import forever
 config = getConfiguration()
 configuration = config.product_config.get('mongodb', dict())
 mongoserver = configuration.get('mongoserver')
 mongoport = int(configuration.get('mongoport'))
 
-class IMongoConnection(Interface):
-    """Mongo Connection"""
-
-
-class MongoConnection(object):
-
-    def __init__(self, host='localhost', port=27017):
-        self.host = host
-        self.port = port
-        self.client = pymongo.MongoClient(self.host, self.port)
-
-
-def setup_mongo():
-    return MongoConnection(host=mongoserver, port=mongoport)
-
-
+@forever.memoize
 def get_mongo_client():
-    return getUtility(IMongoConnection)
+    registry = getUtility(IRegistry)
+    dbuser = registry['edi.course.browser.settings.IEdiCourseSettings.dbuser']
+    dbpassword = registry['edi.course.browser.settings.IEdiCourseSettings.dbpassword']
+    username = urllib.parse.quote_plus(dbuser)
+    password = urllib.parse.quote_plus(dbpassword)
+    mongoclient = pymongo.MongoClient('mongodb://%s:%s@%s:%s' % (username, password, mongoserver, mongoport))
+    print(u'MongoClient instanziert')
+    return mongoclient

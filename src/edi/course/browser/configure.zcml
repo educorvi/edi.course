@@ -109,6 +109,13 @@
       permission="zope2.View"
       />
 
+  <browser:page
+      name="course-settings"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".settings.EdiCourseSettingsView"
+      permission="cmf.ManagePortal"
+      />
+
   <browser:viewlet
       name="courseway.aboveviewlet"
       class=".viewlets.CourseWayViewlet"

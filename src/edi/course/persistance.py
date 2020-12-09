@@ -1,18 +1,12 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from collective.beaker.interfaces import ISession
-from pymongo import MongoClient
 from bson.objectid import ObjectId
 from Products.CMFCore.interfaces import ISiteRoot
 from App.config import getConfiguration
 from edi.course.mongoutil import get_mongo_client
+from zope.component import getUtility
 from plone import api as ploneapi
-config = getConfiguration()
-configuration = config.product_config.get('mongodb', dict())
-mongoserver = configuration.get('mongoserver')
-mongoport = int(configuration.get('mongoport'))
-
-mongoclient = MongoClient(mongoserver, mongoport)
 
 def getAcquisitionChain(context):
     inner = context.aq_inner
@@ -49,6 +43,7 @@ def getResultsForQuiz(context):
     kurs = getCourse(context)
     studentid = ploneapi.user.get_current().getId()
     quizuid = context.UID()
+    mongoclient = get_mongo_client()
     cdb = mongoclient[kurs.id]
     uc = cdb.user_collection
     studentdata = uc.find_one({"studentid": studentid})
@@ -60,7 +55,7 @@ def getResultsForQuiz(context):
 
 def einschreiben(kurs, studentid):
     """schreibt einen Benutzer in den aktuellen Kurs ein"""
-
+    mongoclient = get_mongo_client()
     cdb = mongoclient[kurs.id]
     cc = cdb.course_collection
     coursepost = {'studentid': studentid,
@@ -76,6 +71,7 @@ def einschreiben(kurs, studentid):
 
 def getStudentData(kurs, studentid):
     """liest die Daten des Studenten aus dem aktuellen Kurs"""
+    mongoclient = get_mongo_client()
     cdb = mongoclient[kurs.id]
     uc = cdb.user_collection
     studentdata = uc.find_one({"studentid": studentid})
@@ -83,6 +79,7 @@ def getStudentData(kurs, studentid):
 
 def getCourseData(kurs, studentid):
     """liest die Daten des Kurses aus dem aktuellen Kurs"""
+    mongoclient = get_mongo_client()
     cdb = mongoclient[kurs.id]
     cc = cdb.course_collection
     coursedata = cc.find_one({"studentid": studentid})
@@ -90,7 +87,7 @@ def getCourseData(kurs, studentid):
 
 def updateVisitedData(kurs, studentid, uid, retdict, finished):
     """aktualisiert die Daten zu den besuchten Inhalten"""
-
+    mongoclient = get_mongo_client()
     cdb = mongoclient[kurs.id]
     uc = cdb.user_collection
     cc = cdb.course_collection
@@ -128,6 +125,7 @@ def updateVisitedData(kurs, studentid, uid, retdict, finished):
 def getGlobalStats(kurs):
     """sucht alle Dokumente eingetragener Studenten aus der Datenbank
     """
+    mongoclient = get_mongo_client()
     cdb = mongoclient[kurs.id]
     cc = cdb.course_collection
     alldocs = []
@@ -153,6 +151,7 @@ def resetUserData(kurs, studentid):
     objid = studentdata.get('_id')
     studentdata['visited'] = []
     studentdata['tests'] = {}
+    mongoclient = get_mongo_client()
     cdb = mongoclient[kurs.id]
     uc = cdb.user_collection
     update = uc.update_one({"_id": objid},{"$set": studentdata}, upsert=False)
@@ -161,6 +160,7 @@ def resetUserData(kurs, studentid):
 def resetComplete(kurs, studentid):
     """setzt alle Daten eines Benutzers komplett zurück"""
 
+    mongoclient = get_mongo_client()
     cdb = mongoclient[kurs.id]
     cc = cdb.course_collection
     myquery = {'studentid': studentid}
