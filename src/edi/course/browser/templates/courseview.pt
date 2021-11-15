@@ -27,7 +27,7 @@
               <div class="col-12 col-sm-3">
                 <h5>Start: <span tal:content="python: view.getStartEnde()[0]"/></h5>
                 <h5>Ende: <span tal:content="python: view.getStartEnde()[1]"/></h5>
-                <p class="mt-3 mb-4"><a tal:attributes="href button/buttonurl" role="button" class="btn btn-success" 
+                <p class="mt-3 mb-4"><a tal:attributes="href button/buttonurl;class button/class" role="button"
                    tal:content="button/buttonvalue"/></p>
                 <p><img tal:condition="context/logoimage" class="img-fluid" 
 		   tal:attributes="src string:${context/absolute_url}/@@images/logoimage/mini"></p>

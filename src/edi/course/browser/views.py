@@ -32,6 +32,7 @@ class CourseView(BrowserView):
     def getStartButton(self):
         """Setzt den Startbutton je nach Lernfortschritt"""
         button = {}
+        button['class'] = 'btn btn-success'
         courseitems = self.context.getCourseItemsInOrder()
         if courseitems:
             button['buttonurl'] = self.context.getCourseItemsInOrder()[0].getURL()
@@ -42,6 +43,7 @@ class CourseView(BrowserView):
         if not studentdata:
             button['buttonurl'] = self.context.absolute_url() + '/@@einschreiben'
             button['buttonvalue'] = u"Einschreiben"
+            button['class'] = 'btn btn-warning'
             return button
         if not studentdata.get('visited'):
             button['buttonvalue'] = u"Start"
